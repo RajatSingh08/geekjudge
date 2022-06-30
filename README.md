@@ -9,7 +9,7 @@ to be added ...
 
 
 ## *Frameworks/Libraries used*
-to be added ...
+- Django
 
 
 ## *Author*
