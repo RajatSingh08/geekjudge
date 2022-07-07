@@ -2,6 +2,7 @@
 
 ## *Currently working on*
 - updating OnlineJudge/OJ/views.py
+- adding navigation bar
 
 
 ## *Project Description*
