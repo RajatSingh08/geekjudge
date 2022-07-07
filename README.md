@@ -1,7 +1,7 @@
 # ONLINE JUDGE
 
-## *Project Files*
-to be added ...
+## *Currently working on*
+- updating OnlineJudge/OJ/views.py
 
 
 ## *Project Description*
