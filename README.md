@@ -11,7 +11,7 @@
 - ✔️ Finish Django Tutorial Part 2
 - ✔️ Finish Django Tutorial Part 3
 - ✔️ Finish Django Tutorial Part 4
-- ▶️ Learn Responsive Navigation bar 
+- ✔️ Learn Responsive Navigation bar 
 - ▶️ Learn user authentication iusing Django
 - 🔜 Learn docker basics and how to send and recieve files from docker
 - 🔜 Running and compiling a code file in Docker 
@@ -22,8 +22,8 @@
 - ✔️ Initializing the Database in SQLite3
 - ✔️ Initializing the OJ app
 - ▶️ Adding User Authentication
-- ▶️ Designing the Home Page using Navigation Bar
-- 🔜 Adding the list of problems to the database
+- ✔️ Designing the Home Page using Navigation Bar
+- ▶️ Adding the list of problems to the database
 - 🔜 Adding problem detail page
 - 🔜 Adding Submit page for Submitting the code 
 - 🔜 Getting the verdict
