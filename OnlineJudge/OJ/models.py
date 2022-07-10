@@ -17,13 +17,13 @@ class Problem(models.Model):
 
 
 class TestCase(models.Model):
-    problem_id = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     input = models.CharField(max_length=1000000)
     output = models.CharField(max_length=1000000)
 
 
 class Submission(models.Model):
-    problem_id = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     time_stamp = models.DateTimeField()
     user_code = models.CharField(max_length=100000)
     verdict = models.CharField(max_length=100)
