@@ -10,4 +10,25 @@ List of Views:
 - LEADERBOARD: Diplay the leaderboard.
 '''
 
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404
+from django.urls import reverse
+from django.views import generic
+
+from .models import Problem, TestCase, Submission
+
+
+def HomePage(request):
+    return render(request, 'OJ/dashboard.html')
+
+
+def ProblemPage(request):
+    return render(request, 'OJ/problem.html')
+
+
+def DescriptionPage(request):
+    return render(request, 'OJ/description.html')
+
+
+def SubmissionPage(request):
+    return render(request, 'OJ/submission.html')
