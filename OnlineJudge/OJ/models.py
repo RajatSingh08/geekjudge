@@ -2,6 +2,7 @@ from django.db import models
 
 
 class User(models.Model):
+    name = models.CharField(max_length=50, default="")
     total_score = models.FloatField(default=0)
 
 
@@ -24,6 +25,6 @@ class TestCase(models.Model):
 
 class Submission(models.Model):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
-    time_stamp = models.DateTimeField()
+    time_stamp = models.DateTimeField(auto_now_add=True)
     user_code = models.CharField(max_length=100000)
     verdict = models.CharField(max_length=100)
