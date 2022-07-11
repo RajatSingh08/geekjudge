@@ -32,3 +32,7 @@ def DescriptionPage(request):
 
 def SubmissionPage(request):
     return render(request, 'OJ/submission.html')
+
+
+def LeaderboardPage(request):
+    return render(request, 'OJ/leaderboard.html')
