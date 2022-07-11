@@ -16,6 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+admin.site.site_header = "Online-Judge Admin"
+admin.site.site_title = "Online-Judge Admin Portal"
+admin.site.index_title = "Welcome to Online-Judge Admin"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('OJ.urls')),
