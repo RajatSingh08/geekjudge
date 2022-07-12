@@ -1,3 +1,4 @@
+from sre_parse import expand_template
 from django.db import models
 
 
@@ -17,9 +18,9 @@ class Problem(models.Model):
     #STATUS = (("Unsolved", "Unsolved"), ("Solved", "Solved"))
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100, default="")
-    description = models.CharField(max_length=100000, default="")
+    description = models.TextField(max_length=100000, default="")
+    example = models.TextField(max_length=100000, default="")
     difficulty = models.CharField(max_length=10, choices=TOUGHNESS)
-    #solved_status = models.CharField(max_length=10, choices=STATUS)
     score = models.IntegerField(default=0)
 
     def __str__(self):
@@ -29,8 +30,8 @@ class Problem(models.Model):
 class TestCase(models.Model):
     id = models.BigAutoField(primary_key=True)
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
-    input = models.CharField(max_length=1000000)
-    output = models.CharField(max_length=1000000)
+    input = models.TextField(max_length=1000000)
+    output = models.TextField(max_length=1000000)
 
     def __str__(self):
         return ("TestCase-" + self.id + " for problem-" + str(self.problem))
@@ -39,7 +40,7 @@ class TestCase(models.Model):
 class Submission(models.Model):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     time_stamp = models.DateTimeField(auto_now_add=True)
-    user_code = models.CharField(max_length=100000)
+    user_code = models.TextField(max_length=100000)
     verdict = models.CharField(max_length=100)
 
     def __str__(self):
