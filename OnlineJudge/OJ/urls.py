@@ -3,9 +3,13 @@ from . import views
 
 # app_name = 'OJ'
 urlpatterns = [
-    path('', views.HomePage, name='dashboard'),
-    path('problems/', views.ProblemPage, name='problems'),
-    path('description/', views.DescriptionPage, name='description'),
-    path('submissions/', views.SubmissionPage, name='submissions'),
-    path('leaderboard/', views.LeaderboardPage, name='leaderboard')
+    path('register/', views.registerPage, name='register'),
+    path('login/', views.loginPage, name='login'),
+    path('logout/', views.logoutPage, name='logout'),
+
+    path('', views.homePage, name='dashboard'),
+    path('problems/', views.problemPage, name='problems'),
+    path('problems/<int:problem_id>/', views.descriptionPage, name='description'),
+    path('submissions/', views.submissionPage, name='submissions'),
+    path('leaderboard/', views.leaderboardPage, name='leaderboard')
 ]

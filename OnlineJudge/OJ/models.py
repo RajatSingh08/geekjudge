@@ -1,8 +1,9 @@
 from sre_parse import expand_template
 from django.db import models
+from ckeditor.fields import RichTextField
 
 
-class User(models.Model):
+'''class User(models.Model):
     Firstname = models.CharField(max_length=50, default="")
     Lastname = models.CharField(max_length=50, default="")
     email = models.EmailField(max_length=50, default="")
@@ -10,18 +11,19 @@ class User(models.Model):
     total_score = models.IntegerField(default=0)
 
     def __str__(self):
-        return (self.Firstname + " " + self.Lastname)
+        return (self.Firstname + " " + self.Lastname)'''
 
 
 class Problem(models.Model):
     TOUGHNESS = (("Easy", "Easy"), ("Medium", "Medium"), ("Hard", "Hard"))
-    #STATUS = (("Unsolved", "Unsolved"), ("Solved", "Solved"))
+    STATUS = (("Unsolved", "Unsolved"), ("Solved", "Solved"))
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100, default="")
-    description = models.TextField(max_length=100000, default="")
-    example = models.TextField(max_length=100000, default="")
+    description = RichTextField(default="")
     difficulty = models.CharField(max_length=10, choices=TOUGHNESS)
     score = models.IntegerField(default=0)
+    solved_status = models.CharField(
+        max_length=10, choices=STATUS, default="Unsolved")
 
     def __str__(self):
         return (str(self.id) + ". " + self.name)
