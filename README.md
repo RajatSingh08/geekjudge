@@ -1,6 +1,6 @@
 # ONLINE JUDGE PROJECT
 
-## ToDo List Creating the MVP
+## ToDo List
 ✔️ Done
 ▶️ In progress
 🔜 Remaining
