@@ -20,6 +20,7 @@ class Problem(models.Model):
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100, default="")
     description = RichTextField(default="")
+    example = RichTextField(default="")
     difficulty = models.CharField(max_length=10, choices=TOUGHNESS)
     score = models.IntegerField(default=0)
     solved_status = models.CharField(
