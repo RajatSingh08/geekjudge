@@ -16,16 +16,23 @@
                 background: -webkit-linear-gradient(to right, #92FE9D, #00C9FF) !important;  
                 background: linear-gradient(to right, #92FE9D, #00C9FF) !important; 
             }
+            .block_class{
+                margin-top: 10px !important;
+                margin-left: 25px !important;
+                margin-right: 25px !important;
+            }
         </style>
     </head>
     <body>
         {% include 'OJ/navbar.html' %}
-        {% block content %}
+        <div class="block_class">
+            {% block content %}
 
-        {% endblock %}
+            {% endblock %}
 
-        <hr>
-        <h5>PLACE FOR FOOTER, To be updated at last.....</h5>
+            <hr>
+            <h5>PLACE FOR FOOTER, To be updated at last.....</h5>
+        </div>
     </body>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
