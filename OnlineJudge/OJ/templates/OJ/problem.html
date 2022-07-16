@@ -19,4 +19,22 @@
     </tr>
     {% endfor %}
 </table>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if problems.has_previous %}
+        <a href="?page=1">&laquo; First</a>
+        <a href="?page={{ problems.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ problems.number }} of {{ problems.paginator.num_pages }}
+        </span>
+
+        {% if problems.has_next %}
+        <a href="?page={{ problems.next_page_number }}"> Next</a>
+        <a href="?page={{ problems.paginator.num_pages }}"> Last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}

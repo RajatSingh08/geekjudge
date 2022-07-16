@@ -11,6 +11,7 @@ List of Views:
 '''
 from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import inlineformset_factory
+from django.core.paginator import Paginator
 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
@@ -71,7 +72,10 @@ def homePage(request):
 
 @login_required(login_url='login')
 def problemPage(request):
-    problems = Problem.objects.all()
+    problems_list = Problem.objects.all()
+    paginator = Paginator(problems_list, 10)  # Show 10 problems per page.
+    page_number = request.GET.get('page')
+    problems = paginator.get_page(page_number)
     return render(request, 'OJ/problem.html', {'problems': problems})
 
 
@@ -88,4 +92,8 @@ def submissionPage(request):
 
 @login_required(login_url='login')
 def leaderboardPage(request):
-    return render(request, 'OJ/leaderboard.html')
+    leaderboard_list = Submission.objects.all()
+    paginator = Paginator(leaderboard_list, 10)  # Show 10 problems per page.
+    page_number = request.GET.get('page')
+    leaderboard = paginator.get_page(page_number)
+    return render(request, 'OJ/leaderboard.html', {'leaderboard': leaderboard})

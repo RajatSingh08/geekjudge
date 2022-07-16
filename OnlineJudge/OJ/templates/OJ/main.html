@@ -9,8 +9,14 @@
             href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
             crossorigin="anonymous">
-        <link rel="stylesheet" type="text/css"
-            href="{% static '/css/main.css' %}">
+
+        <style type="text/css">
+            body{
+                background: #00C9FF !important;  
+                background: -webkit-linear-gradient(to right, #92FE9D, #00C9FF) !important;  
+                background: linear-gradient(to right, #92FE9D, #00C9FF) !important; 
+            }
+        </style>
     </head>
     <body>
         {% include 'OJ/navbar.html' %}
