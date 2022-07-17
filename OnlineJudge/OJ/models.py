@@ -42,7 +42,7 @@ class TestCase(models.Model):
 
 class Submission(models.Model):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
-    time_stamp = models.DateTimeField(auto_now_add=True)
+    submission_time = models.DateTimeField(auto_now_add=True)
     user_code = models.TextField(max_length=100000)
     verdict = models.CharField(max_length=100)
 
