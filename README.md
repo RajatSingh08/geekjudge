@@ -25,6 +25,8 @@
 - ✔️ Designing the Home Page using Navigation Bar
 - ✔️ Adding the list of problems to the database
 - ✔️ Adding problem detail page
+- ✔️ Adding pagination for problem detail page
+- ✔️ Sorting problems using Name/Difficulty/Solved_Status/Score to problem detail page
 - ▶️ Adding Submit page for Submitting the code 
 - ▶️ Getting the verdict
 - 🔜 Adding Docker for Security
