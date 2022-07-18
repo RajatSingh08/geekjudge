@@ -2,39 +2,25 @@
 
 {% block content %}
 <h2>Problems</h2>
-<table class="table">
-    <tr>
-        <th><b>Name</b></th>
-        <th><b>Difficulty</b></th>
-        <th><b>Status</b></th>
-        <th><b>Score</b></th>
-    </tr>
 
-    {% for problem in problems %}
-    <tr>
-        <td><a href="{{problem.id}}"><b>{{problem.name}}</b></a></td>
-        <td>{{problem.difficulty}}</td>
-        <td>{{problem.solved_status}}</td>
-        <td>{{problem.score}}</td>
-    </tr>
-    {% endfor %}
+<table id="problem_list" class="table table-striped">
+    <thead>
+        <tr>
+            <th><b>Name</b></th>
+            <th><b>Difficulty</b></th>
+            <th><b>Status</b></th>
+            <th><b>Score</b></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for problem in problems %}
+        <tr>
+            <td><a href="{{problem.id}}"><b>{{problem.name}}</b></a></td>
+            <td>{{problem.difficulty}}</td>
+            <td>{{problem.solved_status}}</td>
+            <td>{{problem.score}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
-
-<div class="pagination">
-    <span class="step-links">
-        {% if problems.has_previous %}
-        <a href="?page=1">&laquo; First</a>
-        <a href="?page={{ problems.previous_page_number }}"> Previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ problems.number }} of {{ problems.paginator.num_pages }}
-        </span>
-
-        {% if problems.has_next %}
-        <a href="?page={{ problems.next_page_number }}"> Next</a>
-        <a href="?page={{ problems.paginator.num_pages }}"> Last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
 {% endblock %}

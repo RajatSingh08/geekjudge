@@ -72,10 +72,7 @@ def homePage(request):
 
 @login_required(login_url='login')
 def problemPage(request):
-    problems_list = Problem.objects.all()
-    paginator = Paginator(problems_list, 10)  # Show 10 problems per page.
-    page_number = request.GET.get('page')
-    problems = paginator.get_page(page_number)
+    problems = Problem.objects.all()
     return render(request, 'OJ/problem.html', {'problems': problems})
 
 

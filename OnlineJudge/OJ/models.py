@@ -15,7 +15,7 @@ from ckeditor.fields import RichTextField
 
 
 class Problem(models.Model):
-    TOUGHNESS = (("Easy", "Easy"), ("Medium", "Medium"), ("Hard", "Hard"))
+    TOUGHNESS = (("Easy", "Easy"), ("Medium", "Medium"), ("Tough", "Tough"))
     STATUS = (("Unsolved", "Unsolved"), ("Solved", "Solved"))
     id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100, default="")
