@@ -89,8 +89,4 @@ def submissionPage(request):
 
 @login_required(login_url='login')
 def leaderboardPage(request):
-    leaderboard_list = Submission.objects.all()
-    paginator = Paginator(leaderboard_list, 10)  # Show 10 problems per page.
-    page_number = request.GET.get('page')
-    leaderboard = paginator.get_page(page_number)
-    return render(request, 'OJ/leaderboard.html', {'leaderboard': leaderboard})
+    return render(request, 'OJ/leaderboard.html')
