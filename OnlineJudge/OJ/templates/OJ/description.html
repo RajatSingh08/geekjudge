@@ -3,6 +3,15 @@
 {% block content %}
 <div class="description_class">
     <h4>{{problem.name}}</h4>
+    <b>Difficulty:</b>
+    {% if problem.difficulty == "Easy" %}
+    <b style="color: green;">{{problem.difficulty}}</b>
+    {% elif problem.difficulty == "Medium" %}
+    <b style="color: blue;">{{problem.difficulty}}</b>
+    {% else %}
+    <b style="color: red;">{{problem.difficulty}}</b>
+    {% endif %}
+
     {% autoescape off %}
     <p>{{problem.description}}</p>
     <p>{{problem.example}}</p>
