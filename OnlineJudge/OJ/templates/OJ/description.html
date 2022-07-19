@@ -19,8 +19,7 @@
         {% endautoescape %}
     </div>
     <div style="float:right; width: 50%;">
-        <form action=""
-            method="POST">
+        <form action="{% url 'verdict' problem.id %}" method="POST">
             {% csrf_token %}
             <fieldset>
                 <div class="form-group" style="width: 20%;">
