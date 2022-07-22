@@ -1,33 +1,34 @@
-from sre_parse import expand_template
 from django.db import models
-from ckeditor.fields import RichTextField
+from django.contrib.auth.models import AbstractUser
+from froala_editor.fields import FroalaField
 
 
-'''class User(models.Model):
-    Firstname = models.CharField(max_length=50, default="")
-    Lastname = models.CharField(max_length=50, default="")
-    email = models.EmailField(max_length=50, default="")
-    password = models.CharField(max_length=25, default="")
+class User(AbstractUser):
+    email = models.EmailField(unique=True, default="")
     total_score = models.IntegerField(default=0)
+    solve_count = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['-total_score']
 
     def __str__(self):
-        return (self.Firstname + " " + self.Lastname)'''
+        return self.username
 
 
 class Problem(models.Model):
     TOUGHNESS = (("Easy", "Easy"), ("Medium", "Medium"), ("Tough", "Tough"))
     STATUS = (("Unsolved", "Unsolved"), ("Solved", "Solved"))
-    id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=100, default="")
-    description = RichTextField(default="")
-    example = RichTextField(default="")
+    description = FroalaField(default="")
     difficulty = models.CharField(max_length=10, choices=TOUGHNESS)
+    time_limit = models.IntegerField(default=1)
+    memory_limit = models.IntegerField(default=128)
     score = models.IntegerField(default=0)
     solved_status = models.CharField(
         max_length=10, choices=STATUS, default="Unsolved")
 
     def __str__(self):
-        return (str(self.id) + ". " + self.name)
+        return self.name
 
 
 class TestCase(models.Model):
@@ -42,9 +43,17 @@ class TestCase(models.Model):
 
 class Submission(models.Model):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default="")
     submission_time = models.DateTimeField(auto_now_add=True)
-    user_code = models.TextField(max_length=100000, default="")
-    verdict = models.CharField(max_length=100, default="")
+    language = models.CharField(max_length=10, null=True, blank=True)
+    verdict = models.CharField(max_length=100)
 
-    def __str__(self):
-        return (str(self.problem) + " " + self.time_stamp)
+    class Meta:
+        ordering = ['-submission_time']
+
+
+class Code(models.Model):
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default="")
+    user_code = models.TextField(max_length=100000)
+    language = models.CharField(max_length=10)
