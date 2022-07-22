@@ -1,0 +1,41 @@
+{% extends 'OJ/main.html' %}
+
+{% block content %}
+<div style="width: 100%;">
+    <div style="float:left; width: 50%">
+        <h4>{{problem.name}}</h4>
+        <b>Difficulty:</b>
+        {% if problem.difficulty == "Easy" %}
+        <b style="color: green;">{{problem.difficulty}}</b>
+        {% elif problem.difficulty == "Medium" %}
+        <b style="color: blue;">{{problem.difficulty}}</b>
+        {% else %}
+        <b style="color: red;">{{problem.difficulty}}</b>
+        {% endif %}
+
+        {% autoescape off %}
+        <p>{{problem.description}}</p>
+        {% endautoescape %}
+    </div>
+    <div style="float:right; width: 50%;">
+        <form action="{% url 'verdict' problem.id %}" method="POST">
+            {% csrf_token %}
+            <fieldset>
+                <div class="form-group" style="width: 20%;">
+                    <label>Select Language</label>
+                    <select name="language" id="language" class="form-select">
+                        <option>C++</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <textarea name="code" id="code"
+                        class="form-control" rows="40"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </fieldset>
+        </form>
+    </div>
+</div>
+<div style="clear:both"></div>
+<br>
+{% endblock %}
