@@ -7,6 +7,9 @@ class User(AbstractUser):
     email = models.EmailField(unique=True, default="")
     total_score = models.IntegerField(default=0)
     solve_count = models.IntegerField(default=0)
+    full_name = models.CharField(max_length=50, default="")
+    profile_pic = models.ImageField(
+        default="defaultpic.png", blank=True, null=True, upload_to='')
 
     class Meta:
         ordering = ['-total_score']

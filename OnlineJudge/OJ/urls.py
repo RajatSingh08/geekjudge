@@ -7,6 +7,8 @@ urlpatterns = [
     path('logout/', views.logoutPage, name='logout'),
 
     path('', views.dashboardPage, name='dashboard'),
+    path('account/', views.accountSettings, name="account"),
+
     path('problems/', views.problemPage, name='problems'),
     path('problems/<int:problem_id>/', views.descriptionPage, name='description'),
     path('problems/<int:problem_id>/verdict/',

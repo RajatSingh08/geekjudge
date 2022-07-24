@@ -28,6 +28,12 @@
             </li>
         </ul>
     </div>
-    <span class="hello-msg">Hello, {{request.user}}</span>
+    <span class="hello-msg">Hello,
+        <a class="hello-msg" style="color: greenyellow"
+            href="{% url 'account' %}">
+            <img src="{{request.user.profile_pic.url}}"
+                width="40" height="40" />{{request.user}}
+        </a>
+    </span>
     <span><a class="hello-msg" href="{% url 'logout' %}">Logout</a></span>
 </nav>

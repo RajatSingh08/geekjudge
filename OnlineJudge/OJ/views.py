@@ -18,7 +18,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect
 
 from .models import User, Problem, TestCase, Submission
-from .forms import CreateUserForm
+from .forms import CreateUserForm, UpdateProfileForm
 
 
 # To register a new user
@@ -65,6 +65,20 @@ def loginPage(request):
 def logoutPage(request):
     logout(request)
     return redirect('login')
+
+
+@login_required(login_url='login')
+def accountSettings(request):
+    form = UpdateProfileForm(instance=request.user)
+
+    if request.method == 'POST':
+        form = UpdateProfileForm(
+            request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+
+    context = {'form': form}
+    return render(request, 'OJ/account_settings.html', context)
 
 
 # To show stats in dashboards
