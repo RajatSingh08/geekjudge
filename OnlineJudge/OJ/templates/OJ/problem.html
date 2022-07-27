@@ -16,7 +16,8 @@
     <tbody>
         {% for problem in problems %}
         <tr>
-            <td><a href="{{problem.id}}"><b>{{problem.name}}</b></a></td>
+            <td><a style="color: black; text-decoration: none"
+                    href="{{problem.id}}"><b>{{problem.name}}</b></a></td>
             <td>
                 {% if problem.difficulty == "Easy" %}
                 <b style="color: green;">{{problem.difficulty}}</b>

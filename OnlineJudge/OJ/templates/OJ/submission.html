@@ -20,7 +20,8 @@
             <td>{{submission.submission_time}}</td>
             <td>{{submission.language}}</td>
             <td>
-                <a href="{% url 'description' submission.problem.id %}">
+                <a style="color: black; text-decoration: none"
+                    href="{% url 'description' submission.problem.id %}">
                     <b>{{submission.problem.name}}</b>
                 </a>
             </td>
