@@ -2,5 +2,28 @@
 
 {% block content %}
 <h2>Submissions</h2>
-<p>This page will show last 10 submissions...</p>
+
+<table id="submission_list" class="table table-striped" style="width:100%">
+    <thead style="background-color: rgba(0, 0, 0, 0.395) !important; color:
+        white !important;">
+        <tr>
+            <th style="width:10%"><b>Time</b></th>
+            <th style="width:10%"><b>Language</b></th>
+            <th style="width:60%"><b>Name</b></th>
+            <th style="width:10%"><b>Difficulty</b></th>
+            <th style="width:10%"><b>Verdiict</b></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for submission in submissions %}
+        <tr>
+            <td>{{submission.submission_time}}</td>
+            <td>{{submission.language}}</td>
+            <td><a href="{{submission.problem.id}}"><b>{{submission.problem.name}}</b></a></td>
+            <td>{{submission.problem.difficulty}}</td>
+            <td>{{submission.verdict}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

@@ -3,10 +3,11 @@ List of Views:
 - REGISTER PAGE: To register a new user.
 - LOGIN PAGE: To login a registered user.
 - LOGOUT PAGE: To logout a registered user.
+- ACOOUNT SETTINGS PAGE : To update profile pic and full name.
 - DASHBOARD PAGE: Has a dashboard with stats.
 - PROBLEM PAGE: Has the list of problems with sorting & paginations.
 - DEESCRIPTION PAGE: Shows problem description of left side and has a text editor on roght side with code submit buttton.
-- SUBMIT PAGE: Accepts a solution and redirects to verdict.html
+- VERDICT PAGE: Shows the verdict to the submission.
 - SUBMISSIONS PAGE: To view all the submissions made by current logged-in user.
 - LEADERBOARD: Diplay the leaderboard.
 '''
@@ -19,6 +20,11 @@ from django.views.decorators.csrf import csrf_protect
 
 from .models import User, Problem, TestCase, Submission
 from .forms import CreateUserForm, UpdateProfileForm
+
+import os
+import sys
+import subprocess
+import os.path
 
 
 # To register a new user
@@ -67,6 +73,7 @@ def logoutPage(request):
     return redirect('login')
 
 
+# to update prfile pic and full name
 @login_required(login_url='login')
 def accountSettings(request):
     form = UpdateProfileForm(instance=request.user)
@@ -104,17 +111,29 @@ def descriptionPage(request, problem_id):
     return render(request, 'OJ/description.html', context)
 
 
-# Accepts a solution and redirects to verdict.html
+# Shows the verdict to the submission
 @login_required(login_url='login')
 def verdictPage(request, problem_id):
     problem = get_object_or_404(Problem, id=problem_id)
-    context = {'problem': problem}
-    return render(request, 'OJ/verdict.html')
+    user_id = request.user.id
+    context = {'problem': problem, 'user_id': user_id}
+    return render(request, 'OJ/verdict.html', context)
 
 
+'''# To view all the submissions made by current logged-in user
 @login_required(login_url='login')
-def submissionPage(request):
-    return render(request, 'OJ/submission.html')
+def submissionPage(request, problem_id):
+    problem = Problem.objects.get(id=problem_id)
+    user_id = request.user.id
+    submissions = Submission.objects.filter(problem=problem, user=user_id)
+    return render(request, 'OJ/submission.html', {'submissions': submissions})'''
+
+
+# To view all the submissions made by current logged-in user
+@login_required(login_url='login')
+def allSubmissionPage(request):
+    submissions = Submission.objects.filter(user=request.user.id)
+    return render(request, 'OJ/submission.html', {'submissions': submissions})
 
 
 # Diplay the leaderboard

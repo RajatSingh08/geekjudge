@@ -61,3 +61,6 @@ class Submission(models.Model):
 
     class Meta:
         ordering = ['-submission_time']
+
+    def __str__(self):
+        return self.submission_time + " : @" + self.user.username + " : " + self.problem.name + " : " + self.verdict
