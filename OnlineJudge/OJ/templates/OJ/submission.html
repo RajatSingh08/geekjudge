@@ -7,9 +7,9 @@
     <thead style="background-color: rgba(0, 0, 0, 0.395) !important; color:
         white !important;">
         <tr>
-            <th style="width:10%"><b>Time</b></th>
+            <th style="width:20%"><b>Time (UTC)</b></th>
             <th style="width:10%"><b>Language</b></th>
-            <th style="width:60%"><b>Name</b></th>
+            <th style="width:50%"><b>Name</b></th>
             <th style="width:10%"><b>Difficulty</b></th>
             <th style="width:10%"><b>Verdiict</b></th>
         </tr>
@@ -19,9 +19,27 @@
         <tr>
             <td>{{submission.submission_time}}</td>
             <td>{{submission.language}}</td>
-            <td><a href="{{submission.problem.id}}"><b>{{submission.problem.name}}</b></a></td>
-            <td>{{submission.problem.difficulty}}</td>
-            <td>{{submission.verdict}}</td>
+            <td>
+                <a href="{% url 'description' submission.problem.id %}">
+                    <b>{{submission.problem.name}}</b>
+                </a>
+            </td>
+            <td>
+                {% if submission.problem.difficulty == "Easy" %}
+                <b style="color: green;">{{submission.problem.difficulty}}</b>
+                {% elif submission.problem.difficulty == "Medium" %}
+                <b style="color: blue;">{{submission.problem.difficulty}}</b>
+                {% else %}
+                <b style="color: red;">{{submission.problem.difficulty}}</b>
+                {% endif %}
+            </td>
+            <td>
+                {% if submission.verdict == "Correct" %}
+                <b style="color: green;">{{submission.verdict}}</b>
+                {% else %}
+                <b style="color: red;">{{submission.verdict}}</b>
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </tbody>

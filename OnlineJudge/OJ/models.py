@@ -63,4 +63,4 @@ class Submission(models.Model):
         ordering = ['-submission_time']
 
     def __str__(self):
-        return self.submission_time + " : @" + self.user.username + " : " + self.problem.name + " : " + self.verdict
+        return str(self.submission_time) + " : @" + self.user.username + " : " + self.problem.name + " : " + self.verdict
