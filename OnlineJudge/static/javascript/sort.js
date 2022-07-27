@@ -7,3 +7,10 @@ $(document).ready(function () {
         ordering: false,
     });
 });
+
+$(document).ready(function () {
+    $('#leaderboard_list').DataTable({
+        ordering: false,
+        "searching": false
+    });
+});

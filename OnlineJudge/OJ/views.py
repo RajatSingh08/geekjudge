@@ -139,4 +139,5 @@ def allSubmissionPage(request):
 # Diplay the leaderboard
 @login_required(login_url='login')
 def leaderboardPage(request):
-    return render(request, 'OJ/leaderboard.html')
+    coders = User.objects.all()
+    return render(request, 'OJ/leaderboard.html', {'coders': coders})
