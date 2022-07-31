@@ -20,9 +20,9 @@
                     href="{{problem.id}}"><b>{{problem.name}}</b></a></td>
             <td>
                 {% if problem.difficulty == "Easy" %}
-                <b style="color: green;">{{problem.difficulty}}</b>
+                <b style="color: darkgoldenrod;">{{problem.difficulty}}</b>
                 {% elif problem.difficulty == "Medium" %}
-                <b style="color: blue;">{{problem.difficulty}}</b>
+                <b style="color: darkblue;">{{problem.difficulty}}</b>
                 {% else %}
                 <b style="color: red;">{{problem.difficulty}}</b>
                 {% endif %}
@@ -31,7 +31,7 @@
                 {% if problem.solved_status == "Unsolved" %}
                 <b style="color: red;">{{problem.solved_status}}</b>
                 {% else %}
-                <b style="color: green;">{{problem.solved_status}}</b>
+                <b style="color: darkgoldenrod;">{{problem.solved_status}}</b>
                 {% endif %}
             </td>
             <td>{{problem.score}}</td>
