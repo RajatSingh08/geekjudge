@@ -42,11 +42,11 @@ class Problem(models.Model):
 class TestCase(models.Model):
     id = models.BigAutoField(primary_key=True)
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
-    input = models.TextField(max_length=1000000)
-    output = models.TextField(max_length=1000000)
+    input = models.TextField()
+    output = models.TextField()
 
     def __str__(self):
-        return ("TestCase-" + self.id + " for problem-" + str(self.problem))
+        return ("TC #" + str(self.id) + " for problem: " + str(self.problem))
 
 
 class Submission(models.Model):
