@@ -27,9 +27,9 @@
 - ✔️ Adding problem detail page
 - ✔️ Adding pagination for problem detail page
 - ✔️ Sorting problems using Name/Difficulty/Solved_Status/Score to problem detail page
-- ▶️ Adding Submit page for Submitting the code 
+- ✔️ Adding Submit page for Submitting the code 
 - ▶️ Getting the verdict
-- 🔜 Adding Docker for Security
+- ▶️ Adding Docker for Security
 - 🔜 Getting n recent submissions 
 - 🔜 Deploy on AWS
 
@@ -43,6 +43,7 @@
 - 🔚 Migrate to postgreSQL
 - 🔚 Add multiple testcases
 - 🔚 Support of custom output checker program instead of simple file matcher
+- 🔚 Add tags to problems
 - 🔚 Add some good problems on OJ
 - 🔚 Improve the UI
 - 🔚 Adding a portal for user feedback
