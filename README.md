@@ -32,6 +32,7 @@
 - ▶️ Adding Docker for Security
 - ✔️ Getting n recent submissions 
 - 🔜 Deploy on AWS
+- 🔜 Adding Email Confirmation 
 
 ## MVP done
 
@@ -41,6 +42,7 @@
 
 -- Implementing:
 - 🔚 Migrate to postgreSQL
+- 🔚 Add multiple languages: Python, Java, etc.
 - 🔚 Add multiple testcases
 - 🔚 Support of custom output checker program instead of simple file matcher
 - 🔚 Add tags to problems
