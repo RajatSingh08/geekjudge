@@ -30,8 +30,9 @@
 - ✔️ Adding Submit page for Submitting the code 
 - ✔️ Getting the verdict
 - ✔️ Adding Docker for Security
-- ✔️ Getting n recent submissions 
+- ✔️ Getting all previous submissions 
 - ▶️ Create dashboard page
+- ▶️ Buy domain name
 - ▶️ Deploy on AWS
 - ▶️ Adding Email Confirmation 
 
