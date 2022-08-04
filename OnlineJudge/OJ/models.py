@@ -4,6 +4,9 @@ from django.contrib.auth.models import AbstractUser
 from froala_editor.fields import FroalaField
 
 
+###############################################################################################################################
+
+
 class User(AbstractUser):
     email = models.EmailField(unique=True, default="")
     total_score = models.IntegerField(default=0)
@@ -23,6 +26,8 @@ class User(AbstractUser):
         return self.username
 
 
+###############################################################################################################################
+
 class Problem(models.Model):
     TOUGHNESS = (("Easy", "Easy"), ("Medium", "Medium"), ("Tough", "Tough"))
     STATUS = (("Unsolved", "Unsolved"), ("Solved", "Solved"))
@@ -31,22 +36,24 @@ class Problem(models.Model):
     difficulty = models.CharField(max_length=10, choices=TOUGHNESS)
     time_limit = models.IntegerField(default=1)
     memory_limit = models.IntegerField(default=128)
-    score = models.IntegerField(default=0)
-    solved_status = models.CharField(
-        max_length=10, choices=STATUS, default="Unsolved")
 
     def __str__(self):
         return self.name
 
 
+###############################################################################################################################
+
+
 class TestCase(models.Model):
-    id = models.BigAutoField(primary_key=True)
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     input = models.TextField()
     output = models.TextField()
 
     def __str__(self):
-        return ("TC #" + str(self.id) + " for problem: " + str(self.problem))
+        return ("TC for problem: " + str(self.problem))
+
+
+###############################################################################################################################
 
 
 class Submission(models.Model):
@@ -57,7 +64,7 @@ class Submission(models.Model):
     submission_time = models.DateTimeField(auto_now_add=True, null=True)
     language = models.CharField(
         max_length=10, choices=LANGUAGES, default="C++")
-    verdict = models.CharField(max_length=100)
+    verdict = models.CharField(max_length=100, default="Wrong Answer")
 
     class Meta:
         ordering = ['-submission_time']

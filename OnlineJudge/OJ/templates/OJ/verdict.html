@@ -2,4 +2,11 @@
 
 {% block content %}
 <h4>Verdict</h4>
+{% if verdict == "Accepted" %}
+<b style="color: darkgoldenrod;">Accepted</b>
+{% elif problem.difficulty == "Compilation Error" %}
+<b style="color: darkblue;">Compilation Error</b>
+{% else %}
+<b style="color: red;">Wrong Answer</b>
+{% endif %}
 {% endblock %}

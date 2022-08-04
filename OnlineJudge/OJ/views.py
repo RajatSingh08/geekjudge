@@ -11,22 +11,28 @@ List of Views:
 - SUBMISSIONS PAGE: To view all the submissions made by current logged-in user.
 - LEADERBOARD: Diplay the leaderboard.
 '''
+from ast import Sub
 from django.shortcuts import render, get_object_or_404, redirect
 
+from django.conf import settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.core.files.storage import FileSystemStorage
 from django.views.decorators.csrf import csrf_protect
 
 from .models import User, Problem, TestCase, Submission
 from .forms import CreateUserForm, UpdateProfileForm
+from datetime import datetime
 
 import os
 import sys
 import subprocess
 import os.path
+import docker
 
 
+###############################################################################################################################
 # To register a new user
 def registerPage(request):
     if request.user.is_authenticated:
@@ -46,6 +52,7 @@ def registerPage(request):
         return render(request, 'OJ/register.html', context)
 
 
+###############################################################################################################################
 # To login a registered user
 def loginPage(request):
     if request.user.is_authenticated:
@@ -67,12 +74,14 @@ def loginPage(request):
         return render(request, 'OJ/login.html', context)
 
 
+###############################################################################################################################
 # To logout a registered user
 def logoutPage(request):
     logout(request)
     return redirect('login')
 
 
+###############################################################################################################################
 # to update prfile pic and full name
 @login_required(login_url='login')
 def accountSettings(request):
@@ -88,19 +97,27 @@ def accountSettings(request):
     return render(request, 'OJ/account_settings.html', context)
 
 
+###############################################################################################################################
 # To show stats in dashboards
 @login_required(login_url='login')
 def dashboardPage(request):
     return render(request, 'OJ/dashboard.html')
 
 
+###############################################################################################################################
 # Has the list of problems with sorting & paginations
 @login_required(login_url='login')
 def problemPage(request):
     problems = Problem.objects.all()
-    return render(request, 'OJ/problem.html', {'problems': problems})
+    submissions = Submission.objects.filter(user=request.user, verdict="Accepted")
+    accepted_problems = []
+    for submission in submissions:
+        accepted_problems.append(submission.problem_id)
+    context = {'problems': problems, 'accepted_problems': accepted_problems}
+    return render(request, 'OJ/problem.html', context)
 
 
+###############################################################################################################################
 # Shows problem description of left side and has a text editor on roght side with code submit buttton.
 @login_required(login_url='login')
 def descriptionPage(request, problem_id):
@@ -111,24 +128,197 @@ def descriptionPage(request, problem_id):
     return render(request, 'OJ/description.html', context)
 
 
+###############################################################################################################################
 # Shows the verdict to the submission
 @login_required(login_url='login')
 def verdictPage(request, problem_id):
-    problem = get_object_or_404(Problem, id=problem_id)
-    user_id = request.user.id
-    context = {'problem': problem, 'user_id': user_id}
-    return render(request, 'OJ/verdict.html', context)
+    if request.method == 'POST':
+        # setting docker-client
+        docker_client = docker.from_env()
+        Running = "running"
+
+        problem = Problem.objects.get(id=problem_id)
+        # score of a problem
+        if problem.difficulty=="Easy":
+            score = 10
+        elif problem.difficulty=="Medium":
+            score = 30
+        else:
+            score = 50
+        testcase = TestCase.objects.get(problem_id=problem_id)
+        #replacing \r\n by \n in original output to compare it with the usercode output
+        testcase.output = testcase.output.replace('\r\n','\n').strip() 
+        #converting input testcase to bytes to give them as input in subprocess
+        tc_input = bytes(testcase.input, 'utf-8')
+        #setting verdict to wrong by default
+        verdict = "Wrong Answer" 
+        lang = ""
+        res = ""
+
+        # if code submitted by textarea
+        if request.POST['user_code']:
+            user_code = request.POST['user_code']
+            user_code = user_code.replace('\r\n','\n').strip()
+            language = request.POST['language']
+            lang = str(language)
+
+            # if user code is in C++
+            if language == "C++":
+                # copy code to .cpp file
+                filepath = settings.FILES_DIR + "/fcpp.cpp"
+                cpp_code = open(filepath,"w")
+                cpp_code.write(user_code)
+                cpp_code.close()
+
+                # checking if the docker container is running or not
+                try:
+                    container = docker_client.containers.get('oj-cpp')
+                    container_state = container.attrs['State']
+                    container_is_running = (container_state['Status'] == Running)
+                    if not container_is_running:
+                        subprocess.run("docker start oj-cpp",shell=True)
+                except docker.errors.NotFound:
+                    subprocess.run("docker run -dt --name oj-cpp gcc",shell=True)
+
+                # copy/paste the .cpp file in docker container 
+                subprocess.run(f"docker cp {filepath} oj-cpp:/fcpp.cpp",shell=True)
+                # compiling the code
+                res = subprocess.run("docker exec oj-cpp g++ -o output fcpp.cpp",capture_output=True,shell=True)
+                # checking if the code have errors
+                if res.stderr.decode('utf-8') != "":
+                    verdict = "Compilation Error"
+                # running the code on given input and taking the output in a variable in bytes
+                res = subprocess.run("docker exec -i oj-cpp ./output",input=tc_input,capture_output=True,shell=True)
+                # removing the .cpp and .output file form the container
+                subprocess.run("docker exec oj-cpp rm fcpp.cpp",shell=True)
+                subprocess.run("docker exec oj-cpp rm output",shell=True)
 
 
-'''# To view all the submissions made by current logged-in user
+            elif language == "C":
+                filepath = settings.FILES_DIR + "/fc.c"
+                c_code = open(filepath,"w")
+                c_code.write(user_code)
+                c_code.close()
+                 
+                try:
+                    container = docker_client.containers.get('oj-c')
+                    container_state = container.attrs['State']
+                    container_is_running = (container_state['Status'] == Running)
+                    if not container_is_running:
+                        subprocess.run("docker start oj-c",shell=True)
+                except docker.errors.NotFound:
+                    subprocess.run("docker run -dt --name oj-c gcc",shell=True)
+
+                subprocess.run(f"docker cp {filepath} oj-c:/fc.c",shell=True)
+                res = subprocess.run("docker exec oj-c g++ -o output fc.c",capture_output=True,shell=True)
+                if res.stderr.decode('utf-8') != "":
+                    verdict = "Compilation Error"
+                res = subprocess.run("docker exec -i oj-c ./output",input=tc_input,capture_output=True,shell=True)
+                subprocess.run("docker exec oj-c rm fc.c",shell=True)
+                subprocess.run("docker exec oj-c rm output",shell=True)
+
+
+        # else if code submitted by file
+        elif request.FILES['codefile']:
+            user_code_file = request.FILES['codefile']
+            fs = FileSystemStorage()
+            fs.save(user_code_file.name, user_code_file)
+            file_type = str(user_code_file.name)
+            cpp_lan = file_type.find(".cpp")
+            c_lan = file_type.find(".c")
+            filepath = settings.FILES_DIR + user_code_file.name
+
+            # if user code file is in C++
+            if cpp_lan != -1:
+                lang = "C++"
+
+                try:
+                    container = docker_client.containers.get('oj-cpp')
+                    container_state = container.attrs['State']
+                    container_is_running = (container_state['Status'] == Running)
+                    if not container_is_running:
+                        subprocess.run("docker start oj-cpp",shell=True)
+                except docker.errors.NotFound:
+                    subprocess.run("docker run -dt --name oj-cpp gcc",shell=True)
+
+                subprocess.run(f"docker cp {filepath} oj-cpp:/fcpp.cpp",shell=True)
+                res = subprocess.run("docker exec oj-cpp g++ -o output fcpp.cpp",capture_output=True,shell=True)
+                if res.stderr.decode('utf-8') != "":
+                    print(res.stderr)
+                    verdict = "Compilation Error" 
+                res = subprocess.run("docker exec -i oj-cpp ./output",input=tc_input,capture_output=True,shell=True)
+                subprocess.run("docker exec oj-cpp rm fcpp.cpp",shell=True)
+                subprocess.run("docker exec oj-cpp rm output",shell=True)
+                os.remove(filepath)
+            
+            # if user code file is in C
+            elif c_lan != -1:
+                lang = "C"
+
+                try:
+                    container = docker_client.containers.get('oj-c')
+                    container_state = container.attrs['State']
+                    container_is_running = (container_state['Status'] == Running)
+                    if not container_is_running:
+                        subprocess.run("docker start oj-c",shell=True)
+                except docker.errors.NotFound:
+                    subprocess.run("docker run -dt --name oj-c gcc",shell=True)
+
+                subprocess.run(f"docker cp {filepath} oj-c:/fc.c",shell=True)
+                res=subprocess.run("docker exec oj-c g++ -o output fc.c",capture_output=True,shell=True)
+                if res.stderr.decode('utf-8') != "":
+                    verdict = "Compilation Error"
+                res = subprocess.run("docker exec -i oj-c ./output",input=tc_input,capture_output=True,shell=True)
+                subprocess.run("docker exec oj-c rm fc.c",shell=True)
+                subprocess.run("docker exec oj-c rm output",shell=True)
+                os.remove(filepath)
+
+            # if user code file is invalid
+            else:
+                os.remove(filepath)
+                user_id = request.user.id
+                problem = get_object_or_404(Problem, id=problem_id)
+                user = User.objects.get(id=user_id)
+                context = {'problem': problem, 'user': user, 'user_id': user_id, 'invalid_file':'Invalid file'}
+                return render(request, 'OJ/description.html', context)
+
+
+        res=res.stdout.decode('utf-8') # converting the res variable from bytes to string
+        if str(res)==str(testcase.output):
+            verdict = "Accepted" 
+        testcase.output += '\n' # added extra line to compare user output having extra ling at the end of their output
+        if str(res)==str(testcase.output):
+            verdict = "Accepted"
+
+
+        # creating Solution class objects and showing it on leaderboard
+        user = User.objects.get(username=request.user)
+        previous_verdict = Submission.objects.filter(user=user.id, problem=problem, verdict="Accepted")
+        if len(previous_verdict)==0 and verdict=="Accepted":
+            user.total_score += score
+            user.solve_count += 1
+            user.save()
+        submission = Submission(user=request.user, problem=problem, submission_time=datetime.now(), language=lang, verdict=verdict)
+        submission.save()
+        context={'verdict':verdict}
+
+    return render(request,'OJ/verdict.html',context)
+
+
+
+'''
+###############################################################################################################################
+# To view all the submissions made by current logged-in user
 @login_required(login_url='login')
 def submissionPage(request, problem_id):
     problem = Problem.objects.get(id=problem_id)
     user_id = request.user.id
     submissions = Submission.objects.filter(problem=problem, user=user_id)
-    return render(request, 'OJ/submission.html', {'submissions': submissions})'''
+    return render(request, 'OJ/submission.html', {'submissions': submissions})
+'''
 
 
+###############################################################################################################################
 # To view all the submissions made by current logged-in user
 @login_required(login_url='login')
 def allSubmissionPage(request):
@@ -136,6 +326,7 @@ def allSubmissionPage(request):
     return render(request, 'OJ/submission.html', {'submissions': submissions})
 
 
+###############################################################################################################################
 # Diplay the leaderboard
 @login_required(login_url='login')
 def leaderboardPage(request):

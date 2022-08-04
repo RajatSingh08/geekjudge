@@ -41,8 +41,10 @@
 - 🔚 Learn postgreSQL
 
 -- Implementing:
+- 🔚 Add leaderboard to every problem
+- 🔚 Add previous submissions to every problem
 - 🔚 Migrate to postgreSQL
-- 🔚 Add multiple languages: Python, Java, etc.
+- 🔚 Add more languages: Python, Java, etc.
 - 🔚 Add multiple testcases
 - 🔚 Support of custom output checker program instead of simple file matcher
 - 🔚 Add tags to problems

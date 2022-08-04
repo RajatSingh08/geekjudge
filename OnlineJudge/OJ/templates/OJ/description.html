@@ -23,15 +23,22 @@
                 <div class="form-group" style="width: 20%;">
                     <label>Select Language</label>
                     <select name="language" id="language" class="form-select">
-                        <option>C++</option>
-                        <option>C</option>
+                        <option value="C++">C++</option>
+                        <option value="C">C</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <textarea name="my-xml-editor" class="form-control"
+                    <textarea name="user_code" class="form-control"
                         data-editor="xml" data-gutter="1" rows="20"></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="form-group" style="text-align:right; margin-right: 30px;">
+                    <input type="file" name="codefile">
+                    <button id="submit" type="submit" name="submit"">Submit</button>
+                    {% if invalid_file != '' %}
+                    <p id="invalid_file">{{invalid_file}}</p>
+                    {% endif %}
+                    <p><strong>NOTE: Submit only .cpp or .c file</strong></p>
+                </div>
             </fieldset>
         </form>
     </div>

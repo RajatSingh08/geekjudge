@@ -9,9 +9,9 @@
         <tr>
             <th style="width:20%"><b>Time (UTC)</b></th>
             <th style="width:10%"><b>Language</b></th>
-            <th style="width:50%"><b>Name</b></th>
-            <th style="width:10%"><b>Difficulty</b></th>
-            <th style="width:10%"><b>Verdiict</b></th>
+            <th style="width:30%"><b>Name</b></th>
+            <th style="width:20%"><b>Difficulty</b></th>
+            <th style="width:20%"><b>Verdict</b></th>
         </tr>
     </thead>
     <tbody>
@@ -35,8 +35,10 @@
                 {% endif %}
             </td>
             <td>
-                {% if submission.verdict == "Correct" %}
+                {% if submission.verdict == "Accepted" %}
                 <b style="color: darkgoldenrod;">{{submission.verdict}}</b>
+                {% elif problem.difficulty == "Compilation Error" %}
+                <b style="color: darkblue;">{{verdict}}</b>
                 {% else %}
                 <b style="color: red;">{{submission.verdict}}</b>
                 {% endif %}
