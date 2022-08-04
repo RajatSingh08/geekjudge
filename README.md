@@ -13,9 +13,9 @@
 - ✔️ Finish Django Tutorial Part 4
 - ✔️ Learn Responsive Navigation bar 
 - ✔️ Learn user authentication using Django
-- ▶️ Learn docker basics and how to send and recieve files from docker
-- 🔜 Running and compiling a code file in Docker 
-- 🔜 Learn Deployement on AWS
+- ✔️ Learn docker basics and how to send and recieve files from docker
+- ✔️ Running and compiling a code file in Docker 
+- ▶️ Learn Deployement on AWS
 
 -- Implementing:
 - ✔️ Initializing the Online-Judge Project
@@ -28,11 +28,12 @@
 - ✔️ Adding pagination for problem detail page
 - ✔️ Sorting problems using Name/Difficulty/Solved_Status/Score to problem detail page
 - ✔️ Adding Submit page for Submitting the code 
-- ▶️ Getting the verdict
-- ▶️ Adding Docker for Security
+- ✔️ Getting the verdict
+- ✔️ Adding Docker for Security
 - ✔️ Getting n recent submissions 
-- 🔜 Deploy on AWS
-- 🔜 Adding Email Confirmation 
+- ▶️ Create dashboard page
+- ▶️ Deploy on AWS
+- ▶️ Adding Email Confirmation 
 
 ## MVP done
 
