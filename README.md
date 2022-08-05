@@ -31,7 +31,7 @@
 - ✔️ Getting the verdict
 - ✔️ Adding Docker for Security
 - ✔️ Getting all previous submissions 
-- ▶️ Create dashboard page
+- ✔️ Create dashboard page
 - ▶️ Buy domain name
 - ▶️ Deploy on AWS
 - ▶️ Adding Email Confirmation 
