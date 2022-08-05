@@ -10,7 +10,10 @@ from froala_editor.fields import FroalaField
 class User(AbstractUser):
     email = models.EmailField(unique=True, default="")
     total_score = models.IntegerField(default=0)
-    solve_count = models.IntegerField(default=0)
+    easy_solve_count = models.IntegerField(default=0)
+    medium_solve_count = models.IntegerField(default=0)
+    tough_solve_count = models.IntegerField(default=0)
+    total_solve_count = models.IntegerField(default=0)
     full_name = models.CharField(max_length=50, default="")
     profile_pic = models.ImageField(
         default="defaultpic.png", blank=True, null=True, upload_to='')

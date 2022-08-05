@@ -101,7 +101,29 @@ def accountSettings(request):
 # To show stats in dashboards
 @login_required(login_url='login')
 def dashboardPage(request):
-    return render(request, 'OJ/dashboard.html')
+    total_ques_count = len(Problem.objects.all())
+    easy_ques_count = len(Problem.objects.filter(difficulty="Easy"))
+    medium_ques_count = len(Problem.objects.filter(difficulty="Medium"))
+    tough_ques_count = len(Problem.objects.filter(difficulty="Tough"))
+
+    user = request.user
+    easy_solve_count = user.easy_solve_count
+    medium_solve_count = user.medium_solve_count
+    tough_solve_count = user.tough_solve_count
+    total_solve_count = user.total_solve_count
+
+    easy_progress = (easy_solve_count/easy_ques_count)*100
+    medium_progress = (medium_solve_count/medium_ques_count)*100
+    tough_progress = (tough_solve_count/tough_ques_count)*100
+    total_progress = (total_solve_count/total_ques_count)*100
+
+    context = {"easy_progress":easy_progress,"medium_progress":medium_progress,
+                "tough_progress":tough_progress,"total_progress":total_progress,
+                "easy_solve_count":easy_solve_count, "medium_solve_count":medium_solve_count, 
+                "tough_solve_count":tough_solve_count,"total_solve_count":total_solve_count,
+                "easy_ques_count":easy_ques_count, "medium_ques_count":medium_ques_count, 
+                "tough_ques_count":tough_ques_count,"total_ques_count":total_ques_count}
+    return render(request, 'OJ/dashboard.html', context)
 
 
 ###############################################################################################################################
@@ -296,7 +318,13 @@ def verdictPage(request, problem_id):
         previous_verdict = Submission.objects.filter(user=user.id, problem=problem, verdict="Accepted")
         if len(previous_verdict)==0 and verdict=="Accepted":
             user.total_score += score
-            user.solve_count += 1
+            user.total_solve_count += 1
+            if problem.difficulty == "Easy":
+                user.easy_solve_count += 1
+            elif problem.difficulty == "Medium":
+                user.medium_solve_count += 1
+            else:
+                user.tough_solve_count += 1
             user.save()
         submission = Submission(user=request.user, problem=problem, submission_time=datetime.now(), language=lang, verdict=verdict)
         submission.save()
