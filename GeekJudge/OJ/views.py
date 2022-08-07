@@ -214,7 +214,7 @@ def verdictPage(request, problem_id):
                 # removing the .cpp and .output file form the container
                 subprocess.run("docker exec oj-cpp rm fcpp.cpp",shell=True)
                 subprocess.run("docker exec oj-cpp rm output",shell=True)
-
+                os.remove(filepath)
 
             elif language == "C":
                 filepath = settings.FILES_DIR + "/fc.c"
@@ -238,6 +238,7 @@ def verdictPage(request, problem_id):
                 res = subprocess.run("docker exec -i oj-c ./output",input=tc_input,capture_output=True,shell=True)
                 subprocess.run("docker exec oj-c rm fc.c",shell=True)
                 subprocess.run("docker exec oj-c rm output",shell=True)
+                os.remove(filepath)
 
 
         # else if code submitted by file
