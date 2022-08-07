@@ -17,21 +17,23 @@
         {% endautoescape %}
     </div>
     <div style="float:right; width: 50%;">
-        <form action="{% url 'verdict' problem.id %}" method="POST">
+        <form action="{% url 'verdict' problem.id %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset>
-                <div class="form-group" style="width: 20%;">
+                <div style="width: 20%;">
                     <label>Select Language</label>
                     <select name="language" id="language" class="form-select">
                         <option value="C++">C++</option>
                         <option value="C">C</option>
                     </select>
                 </div>
-                <div class="form-group">
+                <br>
+                <div>
                     <textarea name="user_code" class="form-control"
-                        data-editor="xml" data-gutter="1" rows="20"></textarea>
+                        data-editor="C++" data-gutter="1" rows="20" spellcheck="false"></textarea>
                 </div>
-                <div class="form-group" style="text-align:right; margin-right: 30px;">
+                <div style="text-align:right; margin-right: 30px;">
+                    <br>
                     <input type="file" name="codefile">
                     <button id="submit" type="submit" name="submit"">Submit</button>
                     {% if invalid_file != '' %}

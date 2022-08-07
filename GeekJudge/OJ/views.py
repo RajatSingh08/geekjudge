@@ -32,6 +32,7 @@ import os.path
 import docker
 
 
+
 ###############################################################################################################################
 # To register a new user
 def registerPage(request):
@@ -50,6 +51,7 @@ def registerPage(request):
 
         context = {'form': form}
         return render(request, 'OJ/register.html', context)
+
 
 
 ###############################################################################################################################
@@ -74,11 +76,13 @@ def loginPage(request):
         return render(request, 'OJ/login.html', context)
 
 
+
 ###############################################################################################################################
 # To logout a registered user
 def logoutPage(request):
     logout(request)
     return redirect('login')
+
 
 
 ###############################################################################################################################
@@ -95,6 +99,7 @@ def accountSettings(request):
 
     context = {'form': form}
     return render(request, 'OJ/account_settings.html', context)
+
 
 
 ###############################################################################################################################
@@ -126,6 +131,7 @@ def dashboardPage(request):
     return render(request, 'OJ/dashboard.html', context)
 
 
+
 ###############################################################################################################################
 # Has the list of problems with sorting & paginations
 @login_required(login_url='login')
@@ -139,6 +145,7 @@ def problemPage(request):
     return render(request, 'OJ/problem.html', context)
 
 
+
 ###############################################################################################################################
 # Shows problem description of left side and has a text editor on roght side with code submit buttton.
 @login_required(login_url='login')
@@ -148,6 +155,7 @@ def descriptionPage(request, problem_id):
     user = User.objects.get(id=user_id)
     context = {'problem': problem, 'user': user, 'user_id': user_id}
     return render(request, 'OJ/description.html', context)
+
 
 
 ###############################################################################################################################
@@ -214,7 +222,6 @@ def verdictPage(request, problem_id):
                 # removing the .cpp and .output file form the container
                 subprocess.run("docker exec oj-cpp rm fcpp.cpp",shell=True)
                 subprocess.run("docker exec oj-cpp rm output",shell=True)
-                os.remove(filepath)
 
             elif language == "C":
                 filepath = settings.FILES_DIR + "/fc.c"
@@ -238,7 +245,6 @@ def verdictPage(request, problem_id):
                 res = subprocess.run("docker exec -i oj-c ./output",input=tc_input,capture_output=True,shell=True)
                 subprocess.run("docker exec oj-c rm fc.c",shell=True)
                 subprocess.run("docker exec oj-c rm output",shell=True)
-                os.remove(filepath)
 
 
         # else if code submitted by file
@@ -249,7 +255,9 @@ def verdictPage(request, problem_id):
             file_type = str(user_code_file.name)
             cpp_lan = file_type.find(".cpp")
             c_lan = file_type.find(".c")
-            filepath = settings.FILES_DIR + user_code_file.name
+            filepath = settings.MEDIA_ROOT + "/" + user_code_file.name
+            user_code = open(filepath, 'r').read()
+
 
             # if user code file is in C++
             if cpp_lan != -1:
@@ -272,7 +280,6 @@ def verdictPage(request, problem_id):
                 res = subprocess.run("docker exec -i oj-cpp ./output",input=tc_input,capture_output=True,shell=True)
                 subprocess.run("docker exec oj-cpp rm fcpp.cpp",shell=True)
                 subprocess.run("docker exec oj-cpp rm output",shell=True)
-                os.remove(filepath)
             
             # if user code file is in C
             elif c_lan != -1:
@@ -294,7 +301,6 @@ def verdictPage(request, problem_id):
                 res = subprocess.run("docker exec -i oj-c ./output",input=tc_input,capture_output=True,shell=True)
                 subprocess.run("docker exec oj-c rm fc.c",shell=True)
                 subprocess.run("docker exec oj-c rm output",shell=True)
-                os.remove(filepath)
 
             # if user code file is invalid
             else:
@@ -327,24 +333,14 @@ def verdictPage(request, problem_id):
             else:
                 user.tough_solve_count += 1
             user.save()
-        submission = Submission(user=request.user, problem=problem, submission_time=datetime.now(), language=lang, verdict=verdict)
+
+        submission = Submission(user=request.user, problem=problem, submission_time=datetime.now(), language=lang, verdict=verdict, user_code=user_code)
         submission.save()
+        os.remove(filepath)
         context={'verdict':verdict}
 
     return render(request,'OJ/verdict.html',context)
 
-
-
-'''
-###############################################################################################################################
-# To view all the submissions made by current logged-in user
-@login_required(login_url='login')
-def submissionPage(request, problem_id):
-    problem = Problem.objects.get(id=problem_id)
-    user_id = request.user.id
-    submissions = Submission.objects.filter(problem=problem, user=user_id)
-    return render(request, 'OJ/submission.html', {'submissions': submissions})
-'''
 
 
 ###############################################################################################################################
@@ -353,6 +349,7 @@ def submissionPage(request, problem_id):
 def allSubmissionPage(request):
     submissions = Submission.objects.filter(user=request.user.id)
     return render(request, 'OJ/submission.html', {'submissions': submissions})
+
 
 
 ###############################################################################################################################
