@@ -32,7 +32,7 @@
 - ✔️ Adding Docker for Security
 - ✔️ Getting all previous submissions 
 - ✔️ Create dashboard page
-- ▶️ Buy domain name
+- ✔️ Buy domain name
 - ▶️ Deploy on AWS
 - ▶️ Adding Email Confirmation 
 
