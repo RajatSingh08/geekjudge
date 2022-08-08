@@ -1,0 +1,8 @@
+{% autoescape off %}
+Hello {{name}},
+
+Thanks for creating the account. Please verify your email address by clicking on the link below.
+
+Confirmation Link: http://{{domain}}{% url 'activate' uidb64=uid token=token %}
+
+{% endautoescape %}
