@@ -1,0 +1,26 @@
+{% extends 'OJ/main.html' %}
+{% load static %}
+
+{% block content %}
+<p></p>
+{% if verdict == "Accepted" %}
+<div class="container h-100">
+    <div class="d-flex justify-content-center h-100">
+        <img src="{% static 'images/accepted.png' %}"/>
+    </div>
+</div>
+{% elif verdict == "Compilation Error" %}
+<div class="container h-100">
+    <div class="d-flex justify-content-center h-100">
+        <img src="{% static 'images/error.png' %}"/>
+    </div>
+</div>
+{% else %}
+<div class="container h-100">
+    <div class="d-flex justify-content-center h-100">
+        <img src="{% static 'images/wrong_answer.png' %}"/>
+    </div>
+</div>
+{% endif %}
+<p></p>
+{% endblock %}

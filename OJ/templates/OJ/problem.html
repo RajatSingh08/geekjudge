@@ -1,0 +1,40 @@
+{% extends 'OJ/main.html' %}
+
+{% block content %}
+<h2>Problems</h2>
+
+<table id="problem_list" class="table table-striped" style="width:100%">
+    <thead style="background-color: rgba(0, 0, 0, 0.395) !important;
+        color:white !important;">
+        <tr>
+            <th style="width:60%"><b>Name</b></th>
+            <th style="width:20%"><b>Difficulty</b></th>
+            <th style="width:20%"><b>Status</b></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for problem in problems %}
+        <tr>
+            <td><a style="color: black; text-decoration: none"
+                    href="{{problem.id}}"><b>{{problem.name}}</b></a></td>
+            <td>
+                {% if problem.difficulty == "Easy" %}
+                <b style="color: darkgoldenrod;">{{problem.difficulty}}</b>
+                {% elif problem.difficulty == "Medium" %}
+                <b style="color: darkblue;">{{problem.difficulty}}</b>
+                {% else %}
+                <b style="color: red;">{{problem.difficulty}}</b>
+                {% endif %}
+            </td>
+            <td>
+                {% if problem.id in accepted_problems %}
+                <b style="color: darkgoldenrod;">Solved</b>
+                {% else %}
+                <b style="color: red;">Unsolved</b>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

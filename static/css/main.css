@@ -1,0 +1,35 @@
+body{
+    background: #00C9FF !important;  
+    background: -webkit-linear-gradient(to right, #92FE9D, #00C9FF) !important;  
+    background: linear-gradient(to right, #92FE9D, #00C9FF) !important; 
+}
+
+.block_class{
+    margin-top: 10px !important;
+    margin-left: 25px !important;
+    margin-right: 25px !important;
+}
+
+.description_class{
+    text-align: left !important;
+    width: 40% !important;
+}
+
+#page-container {
+    position: relative;
+    min-height: 100vh;
+    overflow: auto;
+  }
+  
+#content-wrap {
+    padding-bottom: 12.5rem;    /* Footer height */
+}
+  
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 12.5rem;            /* Footer height */
+    color: #C0C0C0;
+    background-color: black;
+}

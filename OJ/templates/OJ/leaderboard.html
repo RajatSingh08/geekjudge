@@ -1,0 +1,23 @@
+{% extends 'OJ/main.html' %}
+
+{% block content %}
+<h2>Leaderboard</h2>
+
+<table id="leaderboard_list" class="table table-striped" style="width:100%">
+    <thead style="background-color: rgba(0, 0, 0, 0.395) !important; color:
+        white !important;">
+        <tr>
+            <th style="width:50%"><b>Username</b></th>
+            <th style="width:50%"><b>Total Score</b></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for coder in coders %}
+        <tr>
+            <td style="color: indigo;"><b>{{coder.username}}</b></td>
+            <td>{{coder.total_score}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
