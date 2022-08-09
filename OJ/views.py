@@ -362,6 +362,8 @@ def verdictPage(request, problem_id):
                 return render(request, 'OJ/description.html', context)
 
 
+        user_stdout = res.stdout.decode('utf-8')
+        user_stderr = res.stderr.decode('utf-8')
         res=res.stdout.decode('utf-8') # converting the res variable from bytes to string
         if str(res)==str(testcase.output):
             verdict = "Accepted" 
@@ -384,7 +386,7 @@ def verdictPage(request, problem_id):
                 user.tough_solve_count += 1
             user.save()
 
-        submission = Submission(user=request.user, problem=problem, submission_time=datetime.now(), language=lang, verdict=verdict, user_code=user_code)
+        submission = Submission(user=request.user, problem=problem, submission_time=datetime.now(), language=lang, verdict=verdict, user_code=user_code, user_stdout=user_stdout, user_stderr=user_stderr)
         submission.save()
         os.remove(filepath)
         context={'verdict':verdict}
