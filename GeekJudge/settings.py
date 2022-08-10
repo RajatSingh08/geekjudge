@@ -27,7 +27,7 @@ FILES_DIR = os.path.abspath(os.path.join(BASE_DIR,'usercodes'))
 SECRET_KEY = 'django-insecure-yk++e)_3r1drodd3_&-cj69dmp$q&#ah+5u_te+&s!qi(%g%ba'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
