@@ -37,10 +37,10 @@
             <td>
                 {% if submission.verdict == "Accepted" %}
                 <b style="color: darkgoldenrod;">{{submission.verdict}}</b>
-                {% elif problem.difficulty == "Compilation Error" %}
-                <b style="color: darkblue;">{{verdict}}</b>
-                {% else %}
+                {% elif submission.verdict == "Wrong Answer" %}
                 <b style="color: red;">{{submission.verdict}}</b>
+                {% else %}
+                <b style="color: darkblue;">{{submission.verdict}}</b>
                 {% endif %}
             </td>
         </tr>
