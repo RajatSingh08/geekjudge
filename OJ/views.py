@@ -35,6 +35,7 @@ from time import time
 import os
 import sys
 import subprocess
+from subprocess import PIPE
 import os.path
 import docker
 
@@ -111,20 +112,20 @@ def loginPage(request):
 ###############################################################################################################################
 # To activate user account via email verification
 def activate(request,uidb64,token):
-  try:
-    uid=force_str(urlsafe_base64_decode(uidb64))
-    user=User.objects.get(pk=uid)
-  except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-    user=None
+    try:
+        uid=force_str(urlsafe_base64_decode(uidb64))
+        user=User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user=None
   
-  if user is not None and account_activation_token.check_token(user,token):
-    user.is_active=True
-    user.save()
-    login(request,user)
-    return redirect('dashboard')
-  else:
-    messages.error(request,'Activation failed, Please try again!')
-    return render(request,'OJ/register.html')
+    if user is not None and account_activation_token.check_token(user,token):
+        user.is_active=True
+        user.save()
+        login(request,user)
+        return redirect('dashboard')
+    else:
+        messages.error(request,'Activation failed, Please try again!')
+        return render(request,'OJ/register.html')
 
 
 
@@ -263,15 +264,18 @@ def verdictPage(request, problem_id):
 
                 # copy/paste the .cpp file in docker container 
                 subprocess.run(f"docker cp {filepath} oj-cpp:/fcpp.cpp",shell=True)
-                start = time()
                 # compiling the code and running the code on given input and taking the output in a variable in bytes
+                start = time()
+                res = subprocess.Popen("docker exec oj-cpp g++ -o output fcpp.cpp && docker exec -i oj-cpp ./output",
+                                        shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
                 try:
-                    res = subprocess.run("docker exec oj-cpp g++ -o output fcpp.cpp && docker exec -i oj-cpp ./output",
-                                            input=tc_input,capture_output=True,timeout=problem.time_limit, shell=True)
+                    stdout, stderr = res.communicate(input=tc_input, timeout=problem.time_limit)
                 except subprocess.TimeoutExpired:
+                    res.kill()
                     verdict = "Time Limit Exceeded"
+                run_time = time()-start
                 # checking if the code have errors
-                if verdict!="Time Limit Exceeded" and res.stderr.decode('utf-8') != "":
+                if verdict!="Time Limit Exceeded" and stderr.decode('utf-8') != "":
                     verdict = "Compilation Error"
                 # removing the .cpp and .output file form the container
                 subprocess.run("docker exec oj-cpp rm fcpp.cpp",shell=True)
@@ -293,18 +297,23 @@ def verdictPage(request, problem_id):
                     subprocess.run("docker run -dt --name oj-c gcc",shell=True)
 
                 subprocess.run(f"docker cp {filepath} oj-c:/fc.c",shell=True)
-                start = time()
                 # compiling the code and running the code on given input and taking the output in a variable in bytes
+                start = time()
+                res = subprocess.Popen("docker exec oj-c gcc -o output fc.c && docker exec -i oj-c ./output",
+                                        shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
                 try:
-                    res = subprocess.run("docker exec oj-c gcc -o output fc.c && docker exec -i oj-c ./output",
-                                            input=tc_input,capture_output=True,timeout=problem.time_limit, shell=True)
+                    stdout, stderr = res.communicate(input=tc_input, timeout=problem.time_limit)
                 except subprocess.TimeoutExpired:
+                    res.kill()
                     verdict = "Time Limit Exceeded"
+                run_time = time()-start
                 # checking if the code have errors
-                if verdict!="Time Limit Exceeded" and res.stderr.decode('utf-8') != "":
+                if verdict!="Time Limit Exceeded" and stderr.decode('utf-8') != "":
                     verdict = "Compilation Error"
+                # removing the .cpp and .output file form the container
                 subprocess.run("docker exec oj-c rm fc.c",shell=True)
                 subprocess.run("docker exec oj-c rm output",shell=True)
+
 
 
         # else if code submitted by file
@@ -333,18 +342,23 @@ def verdictPage(request, problem_id):
                     subprocess.run("docker run -dt --name oj-cpp gcc",shell=True)
 
                 subprocess.run(f"docker cp {filepath} oj-cpp:/fcpp.cpp",shell=True)
-                start = time()
                 # compiling the code and running the code on given input and taking the output in a variable in bytes
+                start = time()
+                res = subprocess.Popen("docker exec oj-cpp g++ -o output fcpp.cpp && docker exec -i oj-cpp ./output",
+                                        shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
                 try:
-                    res = subprocess.run("docker exec oj-cpp g++ -o output fcpp.cpp && docker exec -i oj-cpp ./output",
-                                            input=tc_input,capture_output=True,timeout=problem.time_limit, shell=True)
+                    stdout, stderr = res.communicate(input=tc_input, timeout=problem.time_limit)
                 except subprocess.TimeoutExpired:
+                    res.kill()
                     verdict = "Time Limit Exceeded"
+                run_time = time()-start
                 # checking if the code have errors
-                if verdict!="Time Limit Exceeded" and res.stderr.decode('utf-8') != "":
+                if verdict!="Time Limit Exceeded" and stderr.decode('utf-8') != "":
                     verdict = "Compilation Error"
+                # removing the .cpp and .output file form the container
                 subprocess.run("docker exec oj-cpp rm fcpp.cpp",shell=True)
                 subprocess.run("docker exec oj-cpp rm output",shell=True)
+
             
             # if user code file is in C
             elif c_lan != -1:
@@ -360,16 +374,20 @@ def verdictPage(request, problem_id):
                     subprocess.run("docker run -dt --name oj-c gcc",shell=True)
 
                 subprocess.run(f"docker cp {filepath} oj-c:/fc.c",shell=True)
-                start = time()
                 # compiling the code and running the code on given input and taking the output in a variable in bytes
+                start = time()
+                res = subprocess.Popen("docker exec oj-c gcc -o output fc.c && docker exec -i oj-c ./output",
+                                        shell=True, stdin=PIPE, stdout=PIPE, stderr=PIPE)
                 try:
-                    res = subprocess.run("docker exec oj-c gcc -o output fc.c && docker exec -i oj-c ./output",
-                                            input=tc_input,capture_output=True,timeout=problem.time_limit, shell=True)
+                    stdout, stderr = res.communicate(input=tc_input, timeout=problem.time_limit)
                 except subprocess.TimeoutExpired:
+                    res.kill()
                     verdict = "Time Limit Exceeded"
+                run_time = time()-start
                 # checking if the code have errors
-                if verdict!="Time Limit Exceeded" and res.stderr.decode('utf-8') != "":
+                if verdict!="Time Limit Exceeded" and stderr.decode('utf-8') != "":
                     verdict = "Compilation Error"
+                # removing the .cpp and .output file form the container
                 subprocess.run("docker exec oj-c rm fc.c",shell=True)
                 subprocess.run("docker exec oj-c rm output",shell=True)
 
@@ -385,13 +403,12 @@ def verdictPage(request, problem_id):
         user_stderr = ""
         user_stdout = ""
         if verdict!="Time Limit Exceeded":
-            user_stderr = res.stderr.decode('utf-8')
-            user_stdout = res.stdout.decode('utf-8')
-            res=res.stdout.decode('utf-8') # converting the res variable from bytes to string
-            if str(res)==str(testcase.output):
+            user_stderr = stderr.decode('utf-8')
+            user_stdout = stdout.decode('utf-8')
+            if str(user_stdout)==str(testcase.output):
                 verdict = "Accepted" 
             testcase.output += '\n' # added extra line to compare user output having extra ling at the end of their output
-            if str(res)==str(testcase.output):
+            if str(user_stdout)==str(testcase.output):
                 verdict = "Accepted"
 
 
@@ -409,7 +426,9 @@ def verdictPage(request, problem_id):
                 user.tough_solve_count += 1
             user.save()
 
-        submission = Submission(user=request.user, problem=problem, submission_time=datetime.now(), language=lang, verdict=verdict, user_code=user_code, user_stdout=user_stdout, user_stderr=user_stderr)
+        submission = Submission(user=request.user, problem=problem, submission_time=datetime.now(), 
+				language=lang, verdict=verdict, user_code=user_code, 
+				user_stdout=user_stdout, user_stderr=user_stderr, run_time=run_time)
         submission.save()
         os.remove(filepath)
         context={'verdict':verdict}

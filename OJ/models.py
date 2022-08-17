@@ -67,6 +67,7 @@ class Submission(models.Model):
     user_stdout = models.TextField(max_length=1000000, default="")
     user_stderr = models.TextField(max_length=1000000, default="")
     submission_time = models.DateTimeField(auto_now_add=True, null=True)
+    run_time = models.FloatField(null=True, default=0)
     language = models.CharField(
         max_length=10, choices=LANGUAGES, default="C++")
     verdict = models.CharField(max_length=100, default="Wrong Answer")
