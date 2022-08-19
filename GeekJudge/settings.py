@@ -29,7 +29,7 @@ SECRET_KEY = 'django-insecure-yk++e)_3r1drodd3_&-cj69dmp$q&#ah+5u_te+&s!qi(%g%ba
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['geekjudge.com', '43.205.86.112', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['www.geekjudge.com', 'geekjudge.com', '43.205.86.112', 'localhost', '127.0.0.1']
 
 
 # Application definition
