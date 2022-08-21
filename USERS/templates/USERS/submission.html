@@ -1,0 +1,50 @@
+{% extends 'OJ/main.html' %}
+
+{% block content %}
+<h2>Submissions</h2>
+
+<table id="submission_list" class="table table-striped" style="width:100%">
+    <thead style="background-color: rgba(0, 0, 0, 0.395) !important; color:
+        white !important;">
+        <tr>
+            <th style="width:20%"><b>Time (UTC)</b></th>
+            <th style="width:10%"><b>Language</b></th>
+            <th style="width:30%"><b>Name</b></th>
+            <th style="width:20%"><b>Difficulty</b></th>
+            <th style="width:20%"><b>Verdict</b></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for submission in submissions %}
+        <tr>
+            <td>{{submission.submission_time}}</td>
+            <td>{{submission.language}}</td>
+            <td>
+                <a style="color: black; text-decoration: none"
+                    href="{% url 'description' submission.problem.id %}">
+                    <b>{{submission.problem.name}}</b>
+                </a>
+            </td>
+            <td>
+                {% if submission.problem.difficulty == "Easy" %}
+                <b style="color: darkgoldenrod;">{{submission.problem.difficulty}}</b>
+                {% elif submission.problem.difficulty == "Medium" %}
+                <b style="color: darkblue;">{{submission.problem.difficulty}}</b>
+                {% else %}
+                <b style="color: red;">{{submission.problem.difficulty}}</b>
+                {% endif %}
+            </td>
+            <td>
+                {% if submission.verdict == "Accepted" %}
+                <b style="color: darkgoldenrod;">{{submission.verdict}}</b>
+                {% elif submission.verdict == "Wrong Answer" %}
+                <b style="color: red;">{{submission.verdict}}</b>
+                {% else %}
+                <b style="color: darkblue;">{{submission.verdict}}</b>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

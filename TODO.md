@@ -5,7 +5,7 @@
 ▶️ In progress
 🔜 Remaining
 
-## Creating the MVP
+## Creating the MVP ✔️✔️✔️✔️✔️✔️✔️✔️
 -- Learning:
 - ✔️ Finish Django Tutorial Part 1
 - ✔️ Finish Django Tutorial Part 2
@@ -15,7 +15,7 @@
 - ✔️ Learn user authentication using Django
 - ✔️ Learn docker basics and how to send and recieve files from docker
 - ✔️ Running and compiling a code file in Docker 
-- ▶️ Learn Deployement on AWS
+- ✔️ Learn Deployement on AWS
 
 -- Implementing:
 - ✔️ Initializing the Online-Judge Project
@@ -33,10 +33,10 @@
 - ✔️ Getting all previous submissions 
 - ✔️ Create dashboard page
 - ✔️ Buy domain name
-- ▶️ Deploy on AWS
-- ▶️ Adding Email Confirmation 
+- ✔️ Deploy on AWS
+- ✔️ Adding Email Confirmation 
 
-## MVP done
+## MVP done ✔️✔️✔️✔️✔️✔️✔️✔️
 
 ## Adding more to MVP
 -- Learning:

@@ -32,14 +32,9 @@
                     <textarea name="user_code" class="form-control"
                         data-editor="C++" data-gutter="1" rows="20" spellcheck="false"></textarea>
                 </div>
+                <br>
                 <div style="text-align:right; margin-right: 30px;">
-                    <br>
-                    <input type="file" name="codefile">
                     <button id="submit" type="submit" name="submit"">Submit</button>
-                    {% if invalid_file != '' %}
-                    <p id="invalid_file">{{invalid_file}}</p>
-                    {% endif %}
-                    <p><strong>NOTE: Submit only .cpp or .c file</strong></p>
                 </div>
             </fieldset>
         </form>

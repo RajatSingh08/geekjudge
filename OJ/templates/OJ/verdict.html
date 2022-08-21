@@ -10,19 +10,28 @@
         </div>
         <div class="card-body">
             <div class="alert alert-success mb-0 pb-0" role="alert">
+
                 {% if verdict == "Accepted" %}
                 <img src="{% static 'images/AC.png' %}" class="img-fluid mb-2" style="width: 10rem; height: 10rem;">
                 <h4 class="alert-heading">Accepted :)</h4>
+
                 {% elif verdict == "Compilation Error" %}
                 <img src="{% static 'images/CE.png' %}" class="img-fluid mb-2" style="width: 10rem; height: 10rem;">
                 <h4 class="alert-heading">Compilation Error :(</h4>
+
+                {% elif verdict == "Runtime Error" %}
+                <img src="{% static 'images/CE.png' %}" class="img-fluid mb-2" style="width: 10rem; height: 10rem;">
+                <h4 class="alert-heading">Runtime Error :(</h4>
+
                 {% elif verdict == "Time Limit Exceeded" %}
                 <img src="{% static 'images/TLE.png' %}" class="img-fluid mb-2" style="width: 10rem; height: 10rem;">
                 <h4 class="alert-heading">Time Limit Exceeded :(</h4>
+
                 {% else %}
                 <img src="{% static 'images/WA.png' %}" class="img-fluid mb-2" style="width: 10rem; height: 10rem;">
                 <h4 class="alert-heading">Wrong Answer :(</h4>
                 {% endif %}
+                
             </div>
         </div>
     </div>
