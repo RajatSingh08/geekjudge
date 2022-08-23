@@ -43,6 +43,7 @@
 - 🔚 Learn postgreSQL
 
 -- Implementing:
+- 🔚 Add leetcode-like submissions graph to dashboard
 - 🔚 Add leaderboard to every problem
 - 🔚 Add previous submissions to every problem
 - 🔚 Migrate to postgreSQL
