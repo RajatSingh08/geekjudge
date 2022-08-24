@@ -19,8 +19,11 @@
             <hr>
             <h3 style="text-align: center">Account Settings</h3>
             <hr>
-            <img class="profile-pic"
-                src="{{request.user.profile_pic.url}}">
+            {% if request.user.profile_pic %}
+            <img class="profile-pic" src="{{request.user.profile_pic.url}}">            
+            {% else %}
+            <img class="profile-pic" src="{% static 'images/defaultpic.png' %}">
+            {% endif %}
 
         </div>
     </div>
