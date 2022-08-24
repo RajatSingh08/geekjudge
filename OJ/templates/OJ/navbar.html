@@ -30,8 +30,12 @@
     <span class="hello-msg">Hello,
         <a class="hello-msg" style="color: greenyellow"
             href="{% url 'account' %}">
-            <img src="{{request.user.profile_pic.url}}"
-                width="40" height="40" />{{request.user}}
+            {% if request.user.profile_pic %}
+            <img src="{{request.user.profile_pic.url}}" width="40" height="40" />
+            {% else %}
+            <img src="{% static 'images/defaultpic.png' %}" width="40" height="40" />
+            {% endif %}
+            {{request.user}}
         </a>
     </span>
     <span><a class="hello-msg" href="{% url 'logout' %}">Logout</a></span>
