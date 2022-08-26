@@ -6,7 +6,7 @@
 <hr>
 <ul>
 <li>
-An Online Judge platform that accepts a solution and judges it as <b>Accepted, Compilation Error, Runtime Error, Time Limit Exceeded</b> or <b>Wrong Answer</b>. Currently supports <b>C, C++</b>.
+An Online Judge platform that accepts a solution and judges it as <b>Accepted, Compilation Error, Runtime Error, Time Limit Exceeded</b> or <b>Wrong Answer</b>. Currently supports <b>C, C++, Python3, Python2</b>.
 </li>
 <li>
 Used <b>Python</b> for implementation by exploring <b>DOCKER</b>.
