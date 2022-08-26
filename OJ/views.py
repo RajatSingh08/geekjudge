@@ -126,20 +126,36 @@ def verdictPage(request, problem_id):
         if language == "C++":
             extension = ".cpp"
             cont_name = "oj-cpp"
+            compile = f"g++ -o {filename} {filename}.cpp"
+            clean = f"{filename} {filename}.cpp"
             docker_img = "gcc"
-            compiler = "g++"
             exe = f"./{filename}"
-
-
             
         elif language == "C":
-            extension = ".cpp"
-            cont_name = "oj-cpp"
+            extension = ".c"
+            cont_name = "oj-c"
+            compile = f"gcc -o {filename} {filename}.c"
+            clean = f"{filename} {filename}.c"
             docker_img = "gcc"
-            compiler = "gcc"
             exe = f"./{filename}"
 
+        elif language == "Python3":
+            extension = ".py"
+            cont_name = "oj-py3"
+            compile = "python3"
+            clean = f"{filename}.py"
+            docker_img = "python3"
+            exe = f"python {filename}.py"
         
+        elif language == "Python2":
+            extension = ".py"
+            cont_name = "oj-py2"
+            compile = "python2"
+            clean = f"{filename}.py"
+            docker_img = "python2"
+            exe = f"python {filename}.py"
+
+
         file = filename + extension
         filepath = settings.FILES_DIR + "/" + file
         code = open(filepath,"w")
@@ -161,7 +177,7 @@ def verdictPage(request, problem_id):
         subprocess.run(f"docker cp {filepath} {cont_name}:/{file}",shell=True)
 
         # compiling the code
-        cmp = subprocess.run(f"docker exec {cont_name} {compiler} -o {filename} {file}", capture_output=True, shell=True)
+        cmp = subprocess.run(f"docker exec {cont_name} {compile}", capture_output=True, shell=True)
         if cmp.returncode != 0:
             verdict = "Compilation Error"
 
@@ -172,7 +188,7 @@ def verdictPage(request, problem_id):
                 res = subprocess.run(f"docker exec {cont_name} sh -c 'echo \"{testcase.input}\" | {exe}'",
                                                 capture_output=True, timeout=problem.time_limit, shell=True)
                 run_time = time()-start
-                subprocess.run(f"docker exec {cont_name} rm {filename} {file}",shell=True)
+                subprocess.run(f"docker exec {cont_name} rm {clean}",shell=True)
             except subprocess.TimeoutExpired:
                 run_time = time()-start
                 verdict = "Time Limit Exceeded"
