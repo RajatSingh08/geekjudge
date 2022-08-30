@@ -180,6 +180,7 @@ def verdictPage(request, problem_id):
         cmp = subprocess.run(f"docker exec {cont_name} {compile}", capture_output=True, shell=True)
         if cmp.returncode != 0:
             verdict = "Compilation Error"
+            subprocess.run(f"docker exec {cont_name} rm {file}",shell=True)
 
         else:
             # running the code on given input and taking the output in a variable in bytes
