@@ -128,7 +128,7 @@ def verdictPage(request, problem_id):
             cont_name = "oj-cpp"
             compile = f"g++ -o {filename} {filename}.cpp"
             clean = f"{filename} {filename}.cpp"
-            docker_img = "gcc"
+            docker_img = "gcc:11.2.0"
             exe = f"./{filename}"
             
         elif language == "C":
@@ -136,7 +136,7 @@ def verdictPage(request, problem_id):
             cont_name = "oj-c"
             compile = f"gcc -o {filename} {filename}.c"
             clean = f"{filename} {filename}.c"
-            docker_img = "gcc"
+            docker_img = "gcc:11.2.0"
             exe = f"./{filename}"
 
         elif language == "Python3":
