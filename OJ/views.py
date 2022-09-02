@@ -155,6 +155,14 @@ def verdictPage(request, problem_id):
             docker_img = "python2"
             exe = f"python {filename}.py"
 
+        elif language == "Java":
+            filename = "Main"
+            extension = ".java"
+            cont_name = "oj-java"
+            compile = f"javac {filename}.java"
+            clean = f"{filename}.java {filename}.class"
+            docker_img = "openjdk"
+            exe = f"java {filename}"
 
         file = filename + extension
         filepath = settings.FILES_DIR + "/" + file
@@ -194,7 +202,8 @@ def verdictPage(request, problem_id):
                 run_time = time()-start
                 verdict = "Time Limit Exceeded"
                 subprocess.run(f"docker container kill {cont_name}", shell=True)
-
+                subprocess.run(f"docker start {cont_name}",shell=True)
+                subprocess.run(f"docker exec {cont_name} rm {clean}",shell=True)
 
             if verdict != "Time Limit Exceeded" and res.returncode != 0:
                 verdict = "Runtime Error"
