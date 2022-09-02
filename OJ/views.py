@@ -128,7 +128,7 @@ def verdictPage(request, problem_id):
             cont_name = "oj-cpp"
             compile = f"g++ -o {filename} {filename}.cpp"
             clean = f"{filename} {filename}.cpp"
-            docker_img = "gcc"
+            docker_img = "gcc:11.2.0"
             exe = f"./{filename}"
             
         elif language == "C":
@@ -136,7 +136,7 @@ def verdictPage(request, problem_id):
             cont_name = "oj-c"
             compile = f"gcc -o {filename} {filename}.c"
             clean = f"{filename} {filename}.c"
-            docker_img = "gcc"
+            docker_img = "gcc:11.2.0"
             exe = f"./{filename}"
 
         elif language == "Python3":
@@ -180,6 +180,7 @@ def verdictPage(request, problem_id):
         cmp = subprocess.run(f"docker exec {cont_name} {compile}", capture_output=True, shell=True)
         if cmp.returncode != 0:
             verdict = "Compilation Error"
+            subprocess.run(f"docker exec {cont_name} rm {file}",shell=True)
 
         else:
             # running the code on given input and taking the output in a variable in bytes
@@ -193,6 +194,8 @@ def verdictPage(request, problem_id):
                 run_time = time()-start
                 verdict = "Time Limit Exceeded"
                 subprocess.run(f"docker container kill {cont_name}", shell=True)
+                subprocess.run(f"docker start {cont_name}",shell=True)
+                subprocess.run(f"docker exec {cont_name} rm {clean}",shell=True)
 
 
             if verdict != "Time Limit Exceeded" and res.returncode != 0:
