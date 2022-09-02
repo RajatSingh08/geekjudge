@@ -155,6 +155,15 @@ def verdictPage(request, problem_id):
             docker_img = "python2"
             exe = f"python {filename}.py"
 
+        elif language == "Java":
+            filename = "Main"
+            extension = ".java"
+            cont_name = "oj-java"
+            compile = f"javac {filename}.java"
+            clean = f"{filename}.java {filename}.class"
+            docker_img = "openjdk"
+            exe = f"java {filename}"
+
 
         file = filename + extension
         filepath = settings.FILES_DIR + "/" + file

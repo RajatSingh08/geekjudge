@@ -33,7 +33,7 @@ class User(AbstractUser):
 
 
 class Submission(models.Model):
-    LANGUAGES = (("C++", "C++"), ("C", "C"), ("Python3", "Python3"), ("Python2", "Python2"))
+    LANGUAGES = (("C++", "C++"), ("C", "C"), ("Python3", "Python3"), ("Python2", "Python2"), ("Java", "Java"))
     user = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     problem = models.ForeignKey(Problem, null=True, on_delete=models.SET_NULL)
     user_code = models.TextField(max_length=10000, default="")
