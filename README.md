@@ -6,7 +6,7 @@
 <hr>
 <ul>
 <li>
-An Online Judge platform that accepts a solution and judges it as <b>Accepted, Compilation Error, Runtime Error, Time Limit Exceeded</b> or <b>Wrong Answer</b>. Currently supports <b>C, C++, Python3, Python2</b>.
+An Online Judge platform that accepts a solution and judges it as <b>Accepted, Compilation Error, Runtime Error, Time Limit Exceeded</b> or <b>Wrong Answer</b>.
 </li>
 <li>
 Used <b>Python</b> for implementation by exploring <b>DOCKER</b>.
@@ -18,6 +18,9 @@ features and provided access to users to keep track of their <b>progress</b> in
 </li>
 <li>
 Also added <b>account verification</b> and <b>password reset</b> via email.
+</li>
+<li>
+Currently supports <b>C</b>, <b>C++</b>, <b>Python3</b>, <b>Python2</b> and <b>Java</b>.
 </li>
 <li>
 <b>Deployed</b> the project on <b>AWS EC2</b> using <b>gunicorn</b> and <b>nginx</b>.
