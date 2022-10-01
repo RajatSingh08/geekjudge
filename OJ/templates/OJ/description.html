@@ -22,7 +22,7 @@
             <fieldset>
                 <div style="width: 20%;">
                     <label>Select Language</label>
-                    <select name="language" id="language" class="form-select">
+                    <select name="language" id="language" class="form-select" onchange="update_editor()">
                         <option value="C++">C++</option>
                         <option value="C">C</option>
                         <option value="Python3">Python3</option>
@@ -32,12 +32,13 @@
                 </div>
                 <br>
                 <b>WARNING:</b> If using Java, use <b>Main</b> as the class name.
-                <div style="overflow: auto;">
-                    <textarea name="user_code" class="form-control"
-                        data-editor="C++" data-gutter="1" rows="20" spellcheck="false"></textarea>
+                <div id="editor-div" style="overflow: auto;">
+                    <textarea name="user_code" class="form-control" id="editor"
+                        data-editor="c_cpp" rows="20"></textarea>
                 </div>
                 <br>
-                <div style="text-align:left;">
+                <div style="text-align:right; margin-right: 27px;">
+                    <button id="submit" type="submit" name="submit"">Run</button>
                     <button id="submit" type="submit" name="submit"">Submit</button>
                 </div>
             </fieldset>

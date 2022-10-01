@@ -3,6 +3,18 @@ $(document).ready(function () {
 });
 
 $(document).ready(function () {
+    $('#course_list').DataTable({
+        ordering: false,
+    });
+});
+
+$(document).ready(function () {
+    $('#assignment_list').DataTable({
+        ordering: false,
+    });
+});
+
+$(document).ready(function () {
     $('#submission_list').DataTable({
         ordering: false,
     });
