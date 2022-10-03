@@ -12,6 +12,7 @@ from django.views.decorators.csrf import csrf_protect
 
 from USERS.models import User, Submission
 from OJ.models import Problem, TestCase
+from OJ.forms import CodeForm
 from datetime import datetime
 from time import time
 
@@ -78,7 +79,8 @@ def descriptionPage(request, problem_id):
     user_id = request.user.id
     problem = get_object_or_404(Problem, id=problem_id)
     user = User.objects.get(id=user_id)
-    context = {'problem': problem, 'user': user, 'user_id': user_id}
+    form = CodeForm()
+    context = {'problem': problem, 'user': user, 'user_id': user_id, 'code_form': form}
     return render(request, 'OJ/description.html', context)
 
 
@@ -113,8 +115,12 @@ def verdictPage(request, problem_id):
         run_time = 0
 
         # extract data from form
-        user_code = request.POST['user_code']
-        user_code = user_code.replace('\r\n','\n').strip()
+        form = CodeForm(request.POST)
+        user_code = ''
+        if form.is_valid():
+            user_code = form.cleaned_data.get('user_code')
+            user_code = user_code.replace('\r\n','\n').strip()
+            
         language = request.POST['language']
         submission = Submission(user=request.user, problem=problem, submission_time=datetime.now(), 
                                     language=language, user_code=user_code)
@@ -164,6 +170,7 @@ def verdictPage(request, problem_id):
             docker_img = "openjdk"
             exe = f"java {filename}"
 
+
         file = filename + extension
         filepath = settings.FILES_DIR + "/" + file
         code = open(filepath,"w")
@@ -204,6 +211,7 @@ def verdictPage(request, problem_id):
                 subprocess.run(f"docker container kill {cont_name}", shell=True)
                 subprocess.run(f"docker start {cont_name}",shell=True)
                 subprocess.run(f"docker exec {cont_name} rm {clean}",shell=True)
+
 
             if verdict != "Time Limit Exceeded" and res.returncode != 0:
                 verdict = "Runtime Error"
