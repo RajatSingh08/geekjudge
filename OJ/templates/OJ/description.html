@@ -20,27 +20,46 @@
         <form action="{% url 'verdict' problem.id %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset>
-                <div style="width: 20%;">
-                    <label>Select Language</label>
-                    <select name="language" id="language" class="form-select" onchange="update_editor()">
-                        <option value="C++">C++</option>
-                        <option value="C">C</option>
-                        <option value="Python3">Python3</option>
-                        <option value="Python2">Python2</option>
-                        <option value="Java">Java</option>
-                    </select>
-                </div>
-                <br>
+                <div>
+                    <div style="float:left; width: 20%;">
+                        <label><b>Select Language</b></label>
+                        <select name="language" id="language" class="form-select" onchange="update_editor()">
+                            <option value="C++">C++</option>
+                            <option value="C">C</option>
+                            <option value="Python3">Python3</option>
+                            <option value="Python2">Python2</option>
+                            <option value="Java">Java</option>
+                        </select>
+                    </div>
+                    <div style="float:right; margin-right: 15px; width: 20%;">
+                        <label><b>Select Theme</b></label>
+                        <select name="theme" id="theme" class="form-select" onchange="update_theme()">
+                            <option value="terminal">Terminal</option>
+                            <option value="twilight">Twilight</option>
+                            <option value="monokai">Monokai</option>
+                            <option value="vibrant_ink">Vibrant Ink</option>
+                            <option value="xcode">Xcode</option>
+                            <option value="solarized_light">Solarized Light</option>
+                            <option value="crimson_editor">Crimson</option>
+                            <option value="dawn">Dawn</option>
+                            <option value="eclipse">Eclipse</option>
+                            <option value="solarized_dark">Solarized Dark</option>
+                            <option value="cobalt">Cobalt</option>
+                            <option value="kuroir">Kuroir</option>
+                            <option value="gob">Green on Black</option>
+                        </select>
+                    </div>
+                </div>  
+                <br><br><br><br>
                 <b>WARNING:</b> If using Java, use <b>Main</b> as the class name.
                 <div id="editor-div" style="overflow: auto;">
-                    <textarea name="user_code" class="form-control" id="editor"
-                        data-editor="c_cpp" rows="20"></textarea>
+                    <textarea data-editor="terminal" name="user_code" cols="85" rows="20" id="editor"></textarea>
                 </div>
                 <br>
                 <div style="text-align:right; margin-right: 27px;">
-                    <button id="submit" type="submit" name="submit"">Run</button>
                     <button id="submit" type="submit" name="submit"">Submit</button>
                 </div>
+                <br>
             </fieldset>
         </form>
     </div>
