@@ -54,7 +54,7 @@ Currently supports <b>C</b>, <b>C++</b>, <b>Python3</b>, <b>Python2</b> and <b>J
 <br>
 <li>
 <b>Click, Code, Submit and get the Verdict:</b>
-<img src="https://github.com/RajatSingh08/RajatSingh08/blob/main/project%20screenshots/geekjudge/7.png" width="100%"/></a>
+<img src="https://github.com/RajatSingh08/RajatSingh08/blob/main/project%20screenshots/geekjudge/description.png" width="100%"/></a>
 <img src="https://github.com/RajatSingh08/RajatSingh08/blob/main/project%20screenshots/geekjudge/8.png" width="100%"/></a>
 </li>
 <br>
