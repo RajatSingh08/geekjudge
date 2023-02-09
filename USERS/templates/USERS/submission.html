@@ -1,5 +1,5 @@
 {% extends 'OJ/main.html' %}
-
+{% load custom_filters %}
 {% block content %}
 <h2>Submissions</h2>
 
@@ -21,7 +21,7 @@
             <td>{{submission.language}}</td>
             <td>
                 <a style="color: black; text-decoration: none"
-                    href="{% url 'description' submission.problem.id %}">
+                    href="{% url 'description' submission.problem.name|replace_space %}">
                     <b>{{submission.problem.name}}</b>
                 </a>
             </td>
