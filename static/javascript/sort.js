@@ -14,3 +14,9 @@ $(document).ready(function () {
         "searching": false
     });
 });
+
+$(document).ready(function () {
+  $("#event_list").DataTable({
+    ordering: false,
+  });
+});

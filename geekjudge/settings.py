@@ -37,6 +37,8 @@ ALLOWED_HOSTS = ['www.geekjudge.com', 'geekjudge.com', '43.205.86.112', 'localho
 INSTALLED_APPS = [
     'USERS.apps.UsersConfig',
     'OJ.apps.OjConfig',
+    'OJ.templatetags',
+    'CEPHEUS.apps.CepheusConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -152,3 +154,6 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 50242880
+FILE_UPLOAD_MAX_MEMORY_SIZE = 50242880

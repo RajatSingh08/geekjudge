@@ -1,5 +1,5 @@
 {% extends 'OJ/main.html' %}
-
+{% load custom_filters %}
 {% block content %}
 <h2>Problems</h2>
 
@@ -16,7 +16,7 @@
         {% for problem in problems %}
         <tr>
             <td><a style="color: black; text-decoration: none"
-                    href="{{problem.id}}"><b>{{problem.name}}</b></a></td>
+                    href="{{problem.name|replace_space}}"><b>{{problem.name}}</b></a></td>
             <td>
                 {% if problem.difficulty == "Easy" %}
                 <b style="color: darkgoldenrod;">{{problem.difficulty}}</b>

@@ -1,0 +1,27 @@
+{% extends 'OJ/main.html' %}
+{% load custom_filters %}
+{% block content %}
+<h2>Events</h2>
+
+<table id="event_list" class="table table-striped" style="width:100%">
+    <thead style="background-color: rgba(0, 0, 0, 0.395) !important;
+        color:white !important;">
+        <tr>
+            <th style="width:50%"><b>Name</b></th>
+            <th style="width:25%"><b>Deadline</b></th>
+            <th style="width:25%"><b>Leaderboard</b></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for event in events %}
+        <tr>
+            <td><a style="color: black; text-decoration: none"
+                    href="{{event.name|replace_space}}"><b>{{event.name}}</b></a></td>
+            <td><b style="color: red;">{{event.end_time}}</b></td>
+            <td><a style="color: darkgoldenrod; text-decoration: none"
+                    href="{% url 'event_leaderboard' event.name|replace_space %}"><b>Leaderboard</b></a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
