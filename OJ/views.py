@@ -61,7 +61,7 @@ def dashboardPage(request):
 # Has the list of problems with sorting & paginations
 @login_required(login_url='login')
 def problemPage(request):
-    problems = Problem.objects.all()
+    problems = Problem.objects.filter(event__isnull=True)
     submissions = Submission.objects.filter(user=request.user, verdict="Accepted")
     accepted_problems = []
     for submission in submissions:
