@@ -11,6 +11,11 @@ body{
     margin-bottom: 10px !important;
 }
 
+.navbar-brand {
+    font-family: 'Allison', cursive !important;
+    font-size: 50px;
+}
+
 .description_class{
     text-align: left !important;
     width: 40% !important;
