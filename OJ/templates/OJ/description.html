@@ -1,8 +1,8 @@
 {% extends 'OJ/main.html' %}
 {% load custom_filters %}
 {% block content %}
-<div style="width: 100%; overflow: auto;">
-    <div style="float:left; width: 50%; height: 650px; overflow: auto;">
+<div style="max-width: 100%; overflow: auto;">
+    <div style="float:left; max-width: 50%; height: 650px; overflow: auto;">
         <h4>{{problem.name}}</h4>
         <b>Difficulty:</b>
         {% if problem.difficulty == "Easy" %}
@@ -17,12 +17,12 @@
         <p>{{problem.description}}</p>
         {% endautoescape %}
     </div>
-    <div style="float:right; width: 49%;">
+    <div style="float:right; max-width: 49%;">
         <form action="{% url 'verdict' problem.name|replace_space %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset>
                 <div>
-                    <div style="float:left; width: 20%;">
+                    <div style="float:left; max-width: 20%;">
                         <label><b>Select Language</b></label>
                         <select name="language" id="language" class="form-select" onchange="update_editor()">
                             <option value="C++">C++</option>
@@ -32,7 +32,7 @@
                             <option value="Java">Java</option>
                         </select>
                     </div>
-                    <div style="float:right; margin-right: 15px; width: 20%;">
+                    <div style="float:right; margin-right: 15px; max-width: 20%;">
                         <label><b>Select Theme</b></label>
                         <select name="theme" id="theme" class="form-select" onchange="update_theme()">
                             <option value="terminal">Terminal</option>
